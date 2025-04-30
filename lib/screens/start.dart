@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'home.dart'; // 로그인 성공 후 이동할 화면
+import 'nickname_error.dart'; //프로필 설정 실패
+import 'home.dart'; // 로그인, 프로필 설정 후 이동할 화면
+import 'nickname_correct.dart';
 
-class LoginScreen extends StatelessWidget {
+class Start extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,13 +40,21 @@ class LoginScreen extends StatelessWidget {
           Positioned(
             left: 16,
             top: 637,
-            child: Container(
-              width: 380,
-              height: 61,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFFCE64A),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NicknameCorrect()),
+                );
+              },
+              child: Container(
+                width: 380,
+                height: 61,
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFFCE64A),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),

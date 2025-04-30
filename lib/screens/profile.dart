@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'complete.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class NicknameError extends StatelessWidget {
-  const NicknameError({super.key});
+class Profile extends StatelessWidget {
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,42 +16,84 @@ class NicknameError extends StatelessWidget {
         children: [
           Positioned(
             left: 16,
-            top: 195,
+            top: 797,
             child: Container(
               width: 380,
               height: 61,
               decoration: ShapeDecoration(
-                color: Colors.white,
+                color: const Color(0xFFB5FFFF),
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    color: const Color(0xFFFF0000),
-                  ),
                   borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          Positioned( //다음 버튼
+            left: 16,
+            top: 814,
+            child: SizedBox(
+              width: 380,
+              height: 28,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Complete()),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero, // 텍스트 위치 유지
+                ),
+                child: Text(
+                  '다음',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontFamily: 'Pretendard Variable',
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
           ),
           Positioned(
             left: 16,
-            top: 264,
+            top: 750,
             child: SizedBox(
-              width: 276,
-              height: 15,
+              width: 380,
+              height: 16,
               child: Text(
-                '한글, 영문만을 사용해 총 5자 이내로 입력해주세요.',
+                '지금은 넘어가기',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: const Color(0xFFFF0000),
-                  fontSize: 13,
-                  fontFamily: 'Inter',
+                  color: const Color(0xFF7B7B7B),
+                  fontSize: 19,
+                  fontFamily: 'Pretendard Variable',
                   fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
                 ),
               ),
             ),
           ),
           Positioned(
-            left: 429,
+            left: 115,
+            top: 302,
+            child: GestureDetector(
+              onTap: () {
+                // TODO: 프로필 편집 기능 연결 (사진 선택)
+              },
+              child: SvgPicture.asset(
+                'assets/images/Group11.svg',
+                width: 182,
+                height: 182,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+
+          Positioned(
+            left: 430,
             top: 108,
             child: Container(
               transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(3.14),
@@ -66,14 +110,13 @@ class NicknameError extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 7,
+            left: 16,
             top: 141,
             child: SizedBox(
-              width: 217,
+              width: 380,
               height: 28,
               child: Text(
-                '이름을 설정해 주시오.',
-                textAlign: TextAlign.center,
+                '프로필을 설정해 주시오.',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 23,
@@ -84,48 +127,16 @@ class NicknameError extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 15,
+            left: 16,
             top: 69,
             child: SizedBox(
               width: 380,
               height: 28,
               child: Text(
-                '닉네임 설정',
+                '프로필 설정',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 19,
-                  fontFamily: 'Pretendard Variable',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 16,
-            top: 797,
-            child: Container(
-              width: 380,
-              height: 61,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFDFDFDF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 16,
-            top: 814,
-            child: SizedBox(
-              width: 380,
-              height: 28,
-              child: Text(
-                '다음',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
                   fontSize: 19,
                   fontFamily: 'Pretendard Variable',
                   fontWeight: FontWeight.w600,
@@ -138,3 +149,5 @@ class NicknameError extends StatelessWidget {
     );
   }
 }
+
+

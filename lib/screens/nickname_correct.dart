@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'profile.dart';
 
-class NicknameError extends StatelessWidget {
-  const NicknameError({super.key});
+class NicknameCorrect extends StatelessWidget {
+  const NicknameCorrect({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class NicknameError extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   side: BorderSide(
                     width: 1,
-                    color: const Color(0xFFFF0000),
+                    color: const Color(0xFFB5FFFF),
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -31,25 +32,7 @@ class NicknameError extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 16,
-            top: 264,
-            child: SizedBox(
-              width: 276,
-              height: 15,
-              child: Text(
-                '한글, 영문만을 사용해 총 5자 이내로 입력해주세요.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: const Color(0xFFFF0000),
-                  fontSize: 13,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 429,
+            left: 430,
             top: 108,
             child: Container(
               transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(3.14),
@@ -66,14 +49,13 @@ class NicknameError extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 7,
+            left: 16,
             top: 141,
             child: SizedBox(
-              width: 217,
+              width: 380,
               height: 28,
               child: Text(
                 '이름을 설정해 주시오.',
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 23,
@@ -84,7 +66,7 @@ class NicknameError extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 15,
+            left: 16,
             top: 69,
             child: SizedBox(
               width: 380,
@@ -108,7 +90,7 @@ class NicknameError extends StatelessWidget {
               width: 380,
               height: 61,
               decoration: ShapeDecoration(
-                color: const Color(0xFFDFDFDF),
+                color: const Color(0xFFB5FFFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -121,14 +103,60 @@ class NicknameError extends StatelessWidget {
             child: SizedBox(
               width: 380,
               height: 28,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Profile()),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero, // 텍스트 위치 유지
+                ),
+                child: Text(
+                  '다음',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontFamily: 'Pretendard Variable',
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 16,
+            top: 218,
+            child: SizedBox(
+              width: 380,
+              height: 16,
               child: Text(
-                '다음',
-                textAlign: TextAlign.center,
+                '   햄수',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 19,
                   fontFamily: 'Pretendard Variable',
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          Positioned(             //이름 입력 칸
+            left: 16,
+            top: 218,
+            child: SizedBox(
+              width: 366,
+              height: 16,
+              child: Text(
+                '2/5',
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  color: const Color(0xFFB2B2B2),
+                  fontSize: 19,
+                  fontFamily: 'Pretendard Variable',
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

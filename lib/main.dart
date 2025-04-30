@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '몽탐정',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: Start(),
     );
   }
 }
