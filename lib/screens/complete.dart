@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'home.dart';
+
 
 class Complete extends StatelessWidget {
   const Complete({super.key});
@@ -33,18 +35,30 @@ class Complete extends StatelessWidget {
             child: SizedBox(
               width: 380,
               height: 28,
-              child: Text(
-                '확인',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontFamily: 'Pretendard Variable',
-                  fontWeight: FontWeight.w600,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero, // 텍스트 위치 조정
+                ),
+                child: Text(
+                  '확인',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontFamily: 'Pretendard Variable',
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
           ),
+
           Positioned(
             left: 16,
             top: 493,

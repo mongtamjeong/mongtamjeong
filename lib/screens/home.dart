@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('홈 화면')),
-      body: Center(child: Text('분실물 리스트가 여기에 나타납니다')),
+      appBar: AppBar(title: Text('몽탐정 홈')),
+      body: Center(child: Text('그래그래 무엇을 찾으러 왔느냐')),
     );
   }
 }
