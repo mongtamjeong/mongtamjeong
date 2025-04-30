@@ -68,7 +68,7 @@ class Complete extends StatelessWidget {
             top: 541,
             child: SizedBox(
               width: 380,
-              height: 31,
+              height: 40,
               child: Text(
                 '지금부터 나와 함께 꿈에서도 보고픈\n그 금도끼를 찾으러 떠나보시게',
                 textAlign: TextAlign.center,

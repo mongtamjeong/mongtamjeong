@@ -53,7 +53,7 @@ class NicknameCorrect extends StatelessWidget {
             top: 141,
             child: SizedBox(
               width: 380,
-              height: 28,
+              height: 30,
               child: Text(
                 '이름을 설정해 주시오.',
                 style: TextStyle(
@@ -127,13 +127,13 @@ class NicknameCorrect extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 16,
-            top: 218,
+            left: 30,
+            top: 212,
             child: SizedBox(
               width: 380,
-              height: 16,
+              height: 25,
               child: Text(
-                '   햄수',
+                '햄수',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 19,
@@ -145,10 +145,10 @@ class NicknameCorrect extends StatelessWidget {
           ),
           Positioned(             //이름 입력 칸
             left: 16,
-            top: 218,
+            top: 212,
             child: SizedBox(
               width: 366,
-              height: 16,
+              height: 25,
               child: Text(
                 '2/5',
                 textAlign: TextAlign.right,

@@ -59,10 +59,10 @@ class Profile extends StatelessWidget {
           ),
           Positioned(
             left: 16,
-            top: 750,
+            top: 745,
             child: SizedBox(
               width: 380,
-              height: 16,
+              height: 30,
               child: Text(
                 '지금은 넘어가기',
                 textAlign: TextAlign.center,
@@ -114,7 +114,7 @@ class Profile extends StatelessWidget {
             top: 141,
             child: SizedBox(
               width: 380,
-              height: 28,
+              height: 35,
               child: Text(
                 '프로필을 설정해 주시오.',
                 style: TextStyle(

@@ -115,7 +115,7 @@ class Start extends StatelessWidget {
             top: 262,
             child: SizedBox(
               width: 217,
-              height: 15,
+              height: 23,
               child: Text(
                 '꿈에서도 보고싶은 내 금도끼를 찾으러',
                 textAlign: TextAlign.center,
