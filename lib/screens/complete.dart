@@ -104,7 +104,7 @@ class Complete extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(),
               child: SvgPicture.asset(
-                'assets/images/Layer_3.svg',  // svg 경로 정확히!
+                'assets/images/grandpa2.svg',  // svg 경로 정확히!
                 fit: BoxFit.contain,
               ),
           ),

@@ -84,7 +84,7 @@ class Profile extends StatelessWidget {
                 // TODO: 프로필 편집 기능 연결 (사진 선택)
               },
               child: SvgPicture.asset(
-                'assets/images/Group11.svg',
+                'assets/images/profileImage.svg',
                 width: 182,
                 height: 182,
                 fit: BoxFit.contain,
