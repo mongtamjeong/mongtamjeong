@@ -67,7 +67,7 @@ class FindFound1Found extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        '어디여디 · 10분 전',
+                        '어디어디 · 10분 전',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
