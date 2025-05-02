@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'wishList.dart';
 import 'chat1.dart';
-import 'find_found1_find.dart';
+import 'find_found1.dart';
 import 'myPage.dart';
 
 class Home extends StatelessWidget {
@@ -129,7 +129,7 @@ class Home extends StatelessWidget {
           else if (index == 1){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FindFound1Find()),
+              MaterialPageRoute(builder: (context) => FindFound1()),
             );
           }
           else if (index == 2){

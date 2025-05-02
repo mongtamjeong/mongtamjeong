@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'wishList.dart';
 import 'chat1.dart';
-import 'find_found1_find.dart';
 import 'myPage.dart';
 import 'home.dart';
+import 'find_found3.dart';
+import 'find_found4.dart';
 
-class FindFound1Found extends StatelessWidget {
+class FindFound1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +60,7 @@ class FindFound1Found extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        'ㅇㅇㅇ 찾았어요',
+                        'ㅇㅇㅇ 찾아요',
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.w600,
@@ -101,7 +102,7 @@ class FindFound1Found extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => FindFound1Find()),
+                        MaterialPageRoute(builder: (context) => FindFound3()),
                       );
                     },
                   ),
@@ -111,7 +112,7 @@ class FindFound1Found extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => FindFound1Found()),
+                        MaterialPageRoute(builder: (context) => FindFound4()),
                       );
                     },
                   ),
@@ -140,7 +141,7 @@ class FindFound1Found extends StatelessWidget {
           else if (index == 1){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FindFound1Find()),
+              MaterialPageRoute(builder: (context) => FindFound1()),
             );
           }
           else if (index == 2){

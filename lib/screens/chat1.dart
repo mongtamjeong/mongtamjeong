@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'wishList.dart';
-import 'find_found1_find.dart';
+import 'find_found1.dart';
 import 'myPage.dart';
 import 'home.dart';
 
