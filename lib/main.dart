@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mongtamjeong/screens/start.dart';
 import 'screens/start.dart';
 
 void main() {

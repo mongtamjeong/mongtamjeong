@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'wishList.dart';
+import 'chat1.dart';
+import 'find_found1_find.dart';
+import 'myPage.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -9,7 +13,12 @@ class Home extends StatelessWidget {
         title: Text('몽탐정 홈',
           style: TextStyle(fontWeight: FontWeight.bold),),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.favorite)),
+          IconButton(onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Wishlist()),
+            );
+          }, icon: Icon(Icons.favorite)),
           IconButton(onPressed: (){}, icon: Icon(Icons.notifications)),
         ],
       ),
@@ -111,7 +120,30 @@ class Home extends StatelessWidget {
         selectedItemColor: Color(0xFFB5FFFF), // 선택된 아이템 색상
         unselectedItemColor: Colors.grey, // 비선택 아이템 색상
         onTap: (index) {
-          // 탭 선택 시 실행 (페이지 전환 등)
+          if(index == 0){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          }
+          else if (index == 1){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FindFound1Find()),
+            );
+          }
+          else if (index == 2){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Chat1()),
+            );
+          }else if (index == 3){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Mypage()),
+            );
+          }
+
         },
         items: const [
           BottomNavigationBarItem(

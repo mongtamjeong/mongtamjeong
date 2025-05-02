@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'nickname_error.dart'; //프로필 설정 실패
-import 'home.dart'; // 로그인, 프로필 설정 후 이동할 화면
 import 'nickname_correct.dart';
 
 class Start extends StatelessWidget {

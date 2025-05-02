@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'wishList.dart';
 
 class NoData extends StatelessWidget {
   @override
@@ -11,13 +12,18 @@ class NoData extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.favorite)),
+          IconButton(onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Wishlist()),
+            );
+          }, icon: Icon(Icons.favorite)),
           IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
         ],
       ),
       body: Stack(
         children: [
-          // ✅ 스크롤 가능한 전체 콘텐츠
+          // 스크롤 가능한 전체 콘텐츠
           SingleChildScrollView(
             padding: const EdgeInsets.only(bottom: 100), // 버튼 가릴 공간
             child: Container(
@@ -116,7 +122,7 @@ class NoData extends StatelessWidget {
             ),
           ),
 
-          // ✅ 화면 아래 떠 있는 검정색 버튼
+          // 화면 아래 떠 있는 검정색 버튼
           Positioned(
             bottom: 37,
             left: 0,
