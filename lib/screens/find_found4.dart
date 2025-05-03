@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 
-class FindFound4 extends StatelessWidget {
+
+class FindFound4 extends StatefulWidget {
+  @override
+  State<FindFound4> createState() => _FindFound3State();
+}
+
+class _FindFound3State extends State<FindFound4> {
+  File? _selectedImage; // 선택된 이미지 저장용
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile_found = await picker.pickImage(
+        source: ImageSource.gallery); // 갤러리 호출
+
+    if (pickedFile_found != null) {
+      setState(() {
+        _selectedImage = File(pickedFile_found.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,28 +62,38 @@ class FindFound4 extends StatelessWidget {
 
             // 2. 사진 등록 박스
             GestureDetector(
-              onTap: () {
-                // TODO: 사진 등록 기능 호출;
-              },
+              onTap: _pickImage, // 클릭 시 갤러리 열기
               child: Container(
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(8),
+                  image: _selectedImage != null
+                      ? DecorationImage(
+                    image: FileImage(_selectedImage!),
+                    fit: BoxFit.cover,
+                  )
+                      : null,
                 ),
-                child: const Center(
+                child: _selectedImage == null
+                    ? const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.camera_alt, size: 24, color: Colors.white),
                       SizedBox(height: 4),
-                      Text('사진/동영상', style: TextStyle(fontSize: 10, color: Colors.white)),
+                      Text(
+                        '사진/동영상',
+                        style: TextStyle(fontSize: 10, color: Colors.white),
+                      ),
                     ],
                   ),
-                ),
+                )
+                    : null,
               ),
             ),
+
 
             const SizedBox(height: 24),
 
