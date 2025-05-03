@@ -64,15 +64,25 @@ class Home extends StatelessWidget {
             SizedBox(height: 23),
             PopupMenuButton<String>(
               onSelected: (value) {
-                if (value == 'pet') {
+                if (value == 'digital') {
                   // 색상으로 찾기 기능 실행
-                } else if (value == 'digital') {
+                } else if (value == 'pet') {
+                  // 카테고리로 찾기 기능 실행
+                } else if (value == 'clothes') {
+                  // 카테고리로 찾기 기능 실행
+                } else if (value == 'goods') {
+                  // 카테고리로 찾기 기능 실행
+                } else if (value == 'etc') {
                   // 카테고리로 찾기 기능 실행
                 }
               },
               itemBuilder: (context) => [
-                const PopupMenuItem(value: 'pet', child: Text('반려동물')),
                 const PopupMenuItem(value: 'digital', child: Text('디지털')),
+                const PopupMenuItem(value: 'pet', child: Text('반려동물')),
+                const PopupMenuItem(value: 'clothes', child: Text('옷')),
+                const PopupMenuItem(value: 'goods', child: Text('잡화')),
+                const PopupMenuItem(value: 'etc', child: Text('기타')),
+
               ],
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
