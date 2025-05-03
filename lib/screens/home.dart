@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'wishList.dart';
 import 'chat1.dart';
 import 'find_found1.dart';
 import 'myPage.dart';
 
 class Home extends StatelessWidget {
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _handleImagePick(BuildContext context, String value) async {
+    XFile? pickedFile;
+    if (value == '사진 촬영') {
+      pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    } else if (value == '갤러리에서 선택') {
+      pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    }
+
+    if (pickedFile != null) {
+      // TODO: 이미지 처리 로직 추가
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +40,11 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Container(
-        color: const Color(0xFFF8FFFF), // 전체 배경색
+        color: const Color(0xFFF8FFFF),
         width: double.infinity,
         height: double.infinity,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               textAlign: TextAlign.center,
@@ -38,23 +55,20 @@ class Home extends StatelessWidget {
                 fontFamily: 'Pretendard Variable',
               ),
             ),
-            SizedBox(
-              height: 23,
-            ),
+            SizedBox(height: 23),
             SvgPicture.asset(
               'assets/images/grandpa.svg',
               width: 207,
               height: 284,
             ),
-            SizedBox(height: 23,),
-            PopupMenuButton<String>( // 조건으로 찾기
+            SizedBox(height: 23),
+            PopupMenuButton<String>(
               onSelected: (value) {
                 if (value == 'pet') {
                   // 색상으로 찾기 기능 실행
                 } else if (value == 'digital') {
                   // 카테고리로 찾기 기능 실행
                 }
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value 선택됨')));
               },
               itemBuilder: (context) => [
                 const PopupMenuItem(value: 'pet', child: Text('반려동물')),
@@ -63,8 +77,7 @@ class Home extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 margin: const EdgeInsets.only(bottom: 12),
-                width: 214
-                ,
+                width: 214,
                 decoration: BoxDecoration(
                   color: Colors.grey,
                   borderRadius: BorderRadius.circular(30),
@@ -75,17 +88,16 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       '조건으로 찾기',
-                      style: TextStyle(color: Colors.white, fontSize: 19,),
+                      style: TextStyle(color: Colors.white, fontSize: 19),
                     ),
                     Icon(Icons.arrow_drop_down, color: Colors.white),
                   ],
                 ),
               ),
             ),
-            // 이미지로 찾기 ▼ 버튼
             PopupMenuButton<String>(
               onSelected: (value) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value 선택됨')));
+                _handleImagePick(context, value);
               },
               itemBuilder: (context) => [
                 const PopupMenuItem(value: '사진 촬영', child: Text('사진 촬영')),
@@ -104,7 +116,7 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       '이미지로 찾기',
-                      style: TextStyle(color: Colors.white, fontSize: 19,),
+                      style: TextStyle(color: Colors.white, fontSize: 19),
                     ),
                     Icon(Icons.arrow_drop_down, color: Colors.white),
                   ],
@@ -115,56 +127,28 @@ class Home extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // 선택된 탭 인덱스 (0 = 홈)
-        type: BottomNavigationBarType.fixed, // 4개 이상일 땐 fixed 필요
-        selectedItemColor: Color(0xFFB5FFFF), // 선택된 아이템 색상
-        unselectedItemColor: Colors.grey, // 비선택 아이템 색상
+        currentIndex: 0,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Color(0xFFB5FFFF),
+        unselectedItemColor: Colors.grey,
         onTap: (index) {
-          if(index == 0){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-            );
+          if (index == 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+          } else if (index == 1) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FindFound1()));
+          } else if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Chat1()));
+          } else if (index == 3) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Mypage()));
           }
-          else if (index == 1){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => FindFound1()),
-            );
-          }
-          else if (index == 2){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Chat1()),
-            );
-          }else if (index == 3){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Mypage()),
-            );
-          }
-
         },
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: '게시판',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: '채팅',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '마이페이지',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+          BottomNavigationBarItem(icon: Icon(Icons.article), label: '게시판'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), label: '채팅'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
         ],
       ),
-
     );
   }
 }
