@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'screens/start.dart';
-import 'screens/image_found.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '몽탐정',
       debugShowCheckedModeBanner: false,
-      home: ImageFound(),
+      home: Start(),
     );
   }
 }
