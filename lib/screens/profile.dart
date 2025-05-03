@@ -3,7 +3,8 @@ import 'complete.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  final String nickname;
+  const Profile({super.key, required this.nickname});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class Profile extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Complete()),
+                    MaterialPageRoute(builder: (context) => Complete(nickname: nickname)),
                   );
                 },
                 style: TextButton.styleFrom(
@@ -63,19 +64,28 @@ class Profile extends StatelessWidget {
             child: SizedBox(
               width: 380,
               height: 30,
-              child: Text(
-                '지금은 넘어가기',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: const Color(0xFF7B7B7B),
-                  fontSize: 19,
-                  fontFamily: 'Pretendard Variable',
-                  fontWeight: FontWeight.w500,
-                  decoration: TextDecoration.underline,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Complete(nickname: nickname,)), // 여기에 이동할 위젯 넣기
+                  );
+                },
+                child: const Text(
+                  '지금은 넘어가기',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF7B7B7B),
+                    fontSize: 19,
+                    fontFamily: 'Pretendard Variable',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ),
           ),
+
           Positioned(
             left: 115,
             top: 302,

@@ -95,7 +95,7 @@ class _NicknameState extends State<Nickname> {
                     ? () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Profile()),
+                    MaterialPageRoute(builder: (context) => Profile(nickname:_nicknameController.text)),
                   );
                 }
                     : null,

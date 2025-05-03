@@ -4,7 +4,9 @@ import 'home.dart';
 
 
 class Complete extends StatelessWidget {
-  const Complete({super.key});
+  final String nickname;
+
+  const Complete({super.key, required this.nickname});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class Complete extends StatelessWidget {
               width: 380,
               height: 28,
               child: Text(
-                '햄수, 반갑소!',
+                '${nickname}, 반갑소!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
