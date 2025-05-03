@@ -6,8 +6,35 @@ import 'find_found1.dart';
 import 'myPage.dart';
 import 'home.dart';
 import 'category_auto.dart';
+import 'factcheck2.dart';
 
-class ImageFound extends StatelessWidget {
+class ImageFound extends StatefulWidget {
+  @override
+  State<ImageFound> createState() => _ImageFoundState();
+}
+
+class _ImageFoundState extends State<ImageFound> {
+  int? selectedIndex; // 어떤 버튼이 선택됐는지
+  bool secondTap = false; // 두 번째 탭 여부
+
+  String topText = '찾았다!\n이 도끼가 네 도끼냐?';
+
+  void handleCardTap(int index) {
+    if (selectedIndex == index && secondTap) {
+      // 같은 버튼을 두 번 누르면 다음 페이지로 이동
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Factcheck2()),
+      );
+    } else {
+      setState(() {
+        selectedIndex = index;
+        secondTap = selectedIndex == index; // 한 번 눌렀다고 표시
+        topText = '그래... 이게 네 금도끼라는거지? \n이 몽탐정이 검증을 해보마';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +53,6 @@ class ImageFound extends StatelessWidget {
 
       body: Stack(
         children: [
-          // 기존 UI를 하나의 Container로 감싸서 Stack 안에 넣기
           Container(
             color: const Color(0xFFF8FFFF), // 전체 배경색
             width: double.infinity,
@@ -35,8 +61,8 @@ class ImageFound extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
+                  topText,
                   textAlign: TextAlign.center,
-                  '찾았다!\n이 도끼가 네 도끼냐?',
                   style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
@@ -64,26 +90,16 @@ class ImageFound extends StatelessWidget {
                     children: [
                       _buildStyledCardButton(
                         context,
+                        index: 0,
                         title: '어쩌고 저쩌고',
                         subtitle: '어디어디 10분 전',
-                        onPressed: () {   // 나중에 수정 필요
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );
-                        },
                       ),
                       const SizedBox(height: 7),
                       _buildStyledCardButton(
                         context,
+                        index: 1,
                         title: '어쩌고 저쩌고',
                         subtitle: '어디어디 10분 전',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );
-                        },
                       ),
                     ],
                   ),
@@ -185,50 +201,50 @@ class ImageFound extends StatelessWidget {
 
     );
   }
-}
 
-Widget _buildStyledCardButton(
-    BuildContext context, {
-      required String title,
-      required String subtitle,
-      required VoidCallback onPressed,
-    }) {
-  return Container(
-    width: 315,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 4,
-          offset: Offset(0, 2),
+
+  Widget _buildStyledCardButton(BuildContext context, {
+    required int index,
+    required String title,
+    required String subtitle,
+  }) {
+    bool isSelected = selectedIndex == index;
+    return Container(
+      width: 315,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isSelected ? Color(0xFFDEFFFF) : Colors.transparent,
+          width: 2,
         ),
-      ],
-    ),
-    child: TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      onPressed: onPressed,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style:
-            const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: const TextStyle(fontSize: 13, color: Colors.black54),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 4,
+            offset: Offset(0, 2),
           ),
         ],
       ),
-    ),
-  );
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        onPressed: () => handleCardTap(index),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)),
+            SizedBox(height: 4),
+            Text(subtitle, style: TextStyle(fontSize: 13, color: Colors.black54)),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+
