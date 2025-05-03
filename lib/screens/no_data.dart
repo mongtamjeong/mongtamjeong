@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'wishList.dart';
+import 'find_found3.dart';
 
 class NoData extends StatelessWidget {
   @override
@@ -60,17 +61,24 @@ class NoData extends StatelessWidget {
 
                   // 회색 버튼
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
                     width: 214,
+                    height: 51,
                     decoration: BoxDecoration(
                       color: Colors.grey,
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    child: const Center(
-                      child: Text(
-                        '찾아요 글쓰기',
-                        style: TextStyle(color: Colors.white, fontSize: 19),
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => FindFound3()), // 이동할 페이지 넣기
+                          );
+                        },
+                        child: const Text(
+                          '찾아요 글쓰기',
+                          style: TextStyle(color: Colors.white, fontSize: 19),
+                        ),
                       ),
                     ),
                   ),
