@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'nickname_correct.dart';
+import 'nickname.dart';
 
 class Start extends StatelessWidget {
   @override
@@ -42,7 +42,7 @@ class Start extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NicknameCorrect()),
+                  MaterialPageRoute(builder: (context) => Nickname()),
                 );
               },
               child: Container(
