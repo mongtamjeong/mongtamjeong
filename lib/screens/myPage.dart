@@ -4,6 +4,8 @@ import 'chat1.dart';
 import 'find_found1.dart';
 import 'home.dart';
 import 'terms.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class Mypage extends StatefulWidget {
   @override
@@ -11,6 +13,20 @@ class Mypage extends StatefulWidget {
 }
 
 class _MypageState extends State<Mypage> {
+  File? _profileImage;
+
+  Future<void> _pickProfileImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +52,24 @@ class _MypageState extends State<Mypage> {
         child: Column(
           children: [
             const SizedBox(height: 40),
-            SvgPicture.asset(
-              'assets/images/profileImage.svg',
-              width: 97,
-              height: 97,
+            GestureDetector(
+              onTap: _pickProfileImage, // 이미지 탭 시 변경
+              child: ClipRRect(
+                child: _profileImage != null
+                    ? Image.file(
+                  _profileImage!,
+                  width: 97,
+                  height: 97,
+                  fit: BoxFit.cover,
+                )
+                    : SvgPicture.asset(
+                  'assets/images/profileImage.svg',
+                  width: 97,
+                  height: 97,
+                ),
+              ),
             ),
+
             const SizedBox(height: 23),
             const Text(
               '햄수 님',

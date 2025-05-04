@@ -56,7 +56,7 @@ class _ProfileState extends State<Profile> {
             Center(
               child: GestureDetector(
                 onTap: _pickImage,
-                child: ClipOval(
+                child: ClipRect(
                   child: _selectedImage != null
                       ? Image.file(
                     _selectedImage!,
