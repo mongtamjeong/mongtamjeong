@@ -3,7 +3,12 @@ import 'wishList.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
-class ItemInformationUser extends StatelessWidget {
+class ItemInformationUser extends StatefulWidget {
+  @override
+  State<ItemInformationUser> createState() => _ItemInformationUserState();
+}
+
+class _ItemInformationUserState extends State<ItemInformationUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
