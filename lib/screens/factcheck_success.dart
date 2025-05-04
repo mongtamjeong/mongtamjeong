@@ -78,7 +78,6 @@ class _FactcheckSuccessState extends State<FactcheckSuccess> {
         unselectedItemColor: Colors.grey, // 비선택 아이템 색상
         onTap: (index) {
           // 탭 선택 시 실행 (페이지 전환 등)
-          print('선택된 탭: $index');
         },
         items: const [
           BottomNavigationBarItem(

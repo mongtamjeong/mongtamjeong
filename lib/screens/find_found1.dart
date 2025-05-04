@@ -20,7 +20,7 @@ class _FindFound1State extends State<FindFound1> {
         title: const Text(
           '게시판',
           style: TextStyle(
-            color: const Color(0xFF212121),
+            color: Color(0xFF212121),
             fontSize: 24,
             fontFamily: 'Pretendard Variable',
             fontWeight: FontWeight.w600,

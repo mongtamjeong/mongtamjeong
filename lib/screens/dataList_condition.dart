@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'wishList.dart';
-import 'chat1.dart';
-import 'myPage.dart';
-import 'home.dart';
-import 'find_found3.dart';
-import 'find_found4.dart';
 
 class DatalistCondition extends StatefulWidget {
   @override

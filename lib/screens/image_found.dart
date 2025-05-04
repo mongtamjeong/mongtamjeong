@@ -142,7 +142,7 @@ class _ImageFoundState extends State<ImageFound> {
           Positioned(
             left: 287,
             top: 438,
-            child: Container(
+            child: SizedBox(
               width: 109,
               height: 149,
               child: SvgPicture.asset(

@@ -47,7 +47,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                   const Text(
                     '저 진짜 너무 힘드네요.. 힘드네요..',
                     style: TextStyle(
-                      color: const Color(0xFF212121),
+                      color: Color(0xFF212121),
                       fontSize: 19,
                       fontFamily: 'Pretendard Variable',
                       fontWeight: FontWeight.w600,
@@ -58,7 +58,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                   const Text(
                     '분류/아찌고/똥    5분 전',
                     style: TextStyle(
-                      color: const Color(0xFFAEAEAE),
+                      color: Color(0xFFAEAEAE),
                       fontSize: 13,
                       fontFamily: 'Pretendard Variable',
                       fontWeight: FontWeight.w400,
@@ -89,7 +89,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                             Text(
                               '기관이름',
                               style: TextStyle(
-                                color: const Color(0xFF212121),
+                                color: Color(0xFF212121),
                                 fontSize: 16,
                                 fontFamily: 'Pretendard Variable',
                                 fontWeight: FontWeight.w600,
@@ -98,7 +98,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                             Text(
                               '위치',
                               style: TextStyle(
-                                color: const Color(0xFFAEAEAE),
+                                color: Color(0xFFAEAEAE),
                                 fontSize: 13,
                                 fontFamily: 'Pretendard Variable',
                                 fontWeight: FontWeight.w400,
@@ -117,7 +117,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                   const Text(
                     '본문 내용\n\n가나다라마바사 아자차카타파하\n디자인 차력쇼를 보여드리겠습니다\n\n안녕하세요 감사합니다 영어로 땡큐 중국어로 쎼쎼\n\n반택만 합니다\n직거래 안합니다\n\n하자 오염 없습니다\n\n커어어억.... 드렁슨',
                     style: TextStyle(
-                      color: const Color(0xFF212121),
+                      color: Color(0xFF212121),
                       fontSize: 16,
                       fontFamily: 'Pretendard Variable',
                       fontWeight: FontWeight.w500,

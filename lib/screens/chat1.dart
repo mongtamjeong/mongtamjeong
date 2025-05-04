@@ -4,7 +4,12 @@ import 'find_found1.dart';
 import 'myPage.dart';
 import 'home.dart';
 
-class Chat1 extends StatelessWidget {
+class Chat1 extends StatefulWidget {
+  @override
+  State<Chat1> createState() => _Chat1State();
+}
+
+class _Chat1State extends State<Chat1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

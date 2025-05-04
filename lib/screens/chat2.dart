@@ -31,7 +31,7 @@ class _Chat2State extends State<Chat2> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('떵쿠노',style: TextStyle(
-            color: const Color(0xFF212121),
+            color: Color(0xFF212121),
         fontSize: 24,
         fontFamily: 'Pretendard Variable',
         fontWeight: FontWeight.w600,
@@ -66,14 +66,14 @@ class _Chat2State extends State<Chat2> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     Text('제목', style: TextStyle(
-                      color: const Color(0xFF212121),
+                      color: Color(0xFF212121),
                       fontSize: 16,
                       fontFamily: 'Pretendard Variable',
                       fontWeight: FontWeight.w600,
                     ),),
                     SizedBox(height: 2),
                     Text('7000원', style: TextStyle(
-                        color: const Color(0xFF212121),
+                        color: Color(0xFF212121),
                   fontSize: 16,
                   fontFamily: 'Pretendard Variable',
                   fontWeight: FontWeight.w600,
