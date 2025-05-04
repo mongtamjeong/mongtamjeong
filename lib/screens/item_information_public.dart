@@ -3,7 +3,7 @@ import 'wishList.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
-class ItemInformationUser extends StatelessWidget {
+class ItemInformationPublic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +82,7 @@ class ItemInformationUser extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
                             Text(
-                              '닉네임',
+                              '기관이름',
                               style: TextStyle(
                                 color: const Color(0xFF212121),
                                 fontSize: 16,
@@ -145,17 +145,12 @@ class ItemInformationUser extends StatelessWidget {
                 Row(
                   children: const [
                     Icon(Icons.favorite, color: Colors.grey),
-                    SizedBox(width: 26.23),
-                    Text(
-                      '현상금 얼마',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
                   ],
                 ),
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    // 채팅 페이지 이동 등
+                    // 지도로 이동 등
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFB5FFFF),
@@ -165,7 +160,7 @@ class ItemInformationUser extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    '채팅하기',
+                    '지도보기',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
