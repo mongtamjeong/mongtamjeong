@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/start.dart';
+import 'screens/find_found3.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '몽탐정',
       debugShowCheckedModeBanner: false,
-      home: Start(),
+      home: FindFound3(),
     );
   }
 }

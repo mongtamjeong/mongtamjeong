@@ -11,6 +11,9 @@ class FindFound4 extends StatefulWidget {
 
 class _FindFound3State extends State<FindFound4> {
   File? _selectedImage; // 선택된 이미지 저장용
+  String? selectedCategory;
+  final List<String> categoryOptions = ['전자기기', '반려동물', '의류', '잡화', '기타'];
+
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -107,11 +110,24 @@ class _FindFound3State extends State<FindFound4> {
             const SizedBox(height: 16),
 
             // 4. 카테고리
-            const TextField(
-              decoration: InputDecoration(
+            DropdownButtonFormField<String>(
+              isDense: true,
+              value: selectedCategory,
+              onChanged: (value) {
+                setState(() {
+                  selectedCategory = value;
+                });
+              },
+              decoration: const InputDecoration(
                 hintText: '카테고리',
                 border: UnderlineInputBorder(),
               ),
+              items: categoryOptions.map((category) {
+                return DropdownMenuItem(
+                  value: category,
+                  child: Text(category),
+                );
+              }).toList(),
             ),
             const SizedBox(height: 24),
 
