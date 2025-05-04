@@ -18,8 +18,8 @@ class Loading2 extends StatelessWidget {
             Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Wishlist()),
-          );}, icon: Icon(Icons.favorite)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.notifications)),
+          );}, icon: Icon(Icons.favorite,color: Color(0xFFAEAEAE))),
+          IconButton(onPressed: (){}, icon: Icon(Icons.notifications,color: Color(0xFFAEAEAE))),
         ],
       ),
       body: Container(

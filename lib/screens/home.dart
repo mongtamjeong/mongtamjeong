@@ -27,15 +27,20 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('몽탐정 홈',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+            style: TextStyle(
+              color: const Color(0xFF212121),
+              fontSize: 24,
+              fontFamily: 'Pretendard Variable',
+              fontWeight: FontWeight.w600,
+            ),),
         actions: [
           IconButton(onPressed: (){
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Wishlist()),
             );
-          }, icon: Icon(Icons.favorite)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.notifications)),
+          }, icon: Icon(Icons.favorite,color: Color(0xFFAEAEAE))),
+          IconButton(onPressed: (){}, icon: Icon(Icons.notifications,color: Color(0xFFAEAEAE))),
         ],
       ),
       body: Container(
@@ -77,8 +82,8 @@ class Home extends StatelessWidget {
               },
               itemBuilder: (context) => [
                 const PopupMenuItem(value: 'digital', child: Text('디지털')),
-                const PopupMenuItem(value: 'pet', child: Text('반려동물')),
-                const PopupMenuItem(value: 'clothes', child: Text('옷')),
+                const PopupMenuItem(value: 'pet', child: Text('전자기기')),
+                const PopupMenuItem(value: 'clothes', child: Text('의류')),
                 const PopupMenuItem(value: 'goods', child: Text('잡화')),
                 const PopupMenuItem(value: 'etc', child: Text('기타')),
 

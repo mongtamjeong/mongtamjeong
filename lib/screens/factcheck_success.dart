@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class FactcheckSuccess extends StatelessWidget {
+class FactcheckSuccess extends StatefulWidget {
+  @override
+  State<FactcheckSuccess> createState() => _FactcheckSuccessState();
+}
+
+class _FactcheckSuccessState extends State<FactcheckSuccess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('이미지로 찾기',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          '이미지로 찾기',
+          style: TextStyle(
+            color: const Color(0xFF212121),
+            fontSize: 24,
+            fontFamily: 'Pretendard Variable',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.favorite)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.notifications)),
+          IconButton(onPressed: (){}, icon: Icon(Icons.favorite,color: Color(0xFFAEAEAE))),
+          IconButton(onPressed: (){}, icon: Icon(Icons.notifications,color: Color(0xFFAEAEAE))),
         ],
       ),
       body: Container(

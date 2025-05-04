@@ -6,7 +6,12 @@ import 'home.dart';
 import 'find_found3.dart';
 import 'find_found4.dart';
 
-class FindFound1 extends StatelessWidget {
+class FindFound1 extends StatefulWidget {
+  @override
+  State<FindFound1> createState() => _FindFound1State();
+}
+
+class _FindFound1State extends State<FindFound1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +19,12 @@ class FindFound1 extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           '게시판',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: const Color(0xFF212121),
+            fontSize: 24,
+            fontFamily: 'Pretendard Variable',
+            fontWeight: FontWeight.w600,
+          ),
         ),
         actions: [
           IconButton(
@@ -24,8 +34,8 @@ class FindFound1 extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => Wishlist()),
                 );
               },
-              icon: const Icon(Icons.favorite)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
+              icon: const Icon(Icons.favorite,color: Color(0xFFAEAEAE))),
+          IconButton(onPressed: () {}, icon: Icon(Icons.notifications,color: Color(0xFFAEAEAE))),
         ],
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(1.0),
@@ -41,44 +51,55 @@ class FindFound1 extends StatelessWidget {
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 123,
-                  height: 123,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'ㅇㅇㅇ 찾아요',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w600,
-                        ),
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 123,
+                      height: 123,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        '어디어디 · 10분 전',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'ㅇㅇㅇ 찾아요',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            '어디어디 · 10분 전',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const Divider(
+                height: 1,
+                thickness: 1,
+                color: Color(0xFFDDDDDD), // 연한 회색
+                indent: 16,
+                endIndent: 16,
+              ),
+            ],
           );
         },
       ),

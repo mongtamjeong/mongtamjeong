@@ -11,8 +11,15 @@ class FactcheckFail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('이미지로 찾기',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          '  이미지로 찾기',
+          style: TextStyle(
+            color: const Color(0xFF212121),
+            fontSize: 24,
+            fontFamily: 'Pretendard Variable',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: [
           IconButton(onPressed: (){
             Navigator.push(
