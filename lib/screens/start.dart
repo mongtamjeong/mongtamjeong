@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'nickname.dart';
 import 'register.dart';
+import 'login.dart';
 
 
 class Start extends StatelessWidget {
@@ -57,7 +58,7 @@ class Start extends StatelessWidget {
                 width: 204,
                 height: 279,
               ),
-              const Spacer(),
+              const SizedBox(height: 40),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
@@ -109,7 +110,7 @@ class Start extends StatelessWidget {
                         ),
                         child: const Center(
                           child: Text(
-                            '이메일로 로그인',
+                            '회원가입 하기',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 16,
@@ -119,7 +120,51 @@ class Start extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 16),
+                    Center(
+                      child: SizedBox(
+                        width: 380,
+                        height: 16,
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              const TextSpan(
+                                text: '이미 계정이 있으신가요? ',
+                                style: TextStyle(
+                                  color: Color(0xFF7B7B7B),
+                                  fontSize: 13,
+                                  fontFamily: 'Pretendard Variable',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (_) => Login()),
+                                    );
+                                  },
+                                  child: Text(
+                                    '로그인 하기',
+                                    style: TextStyle(
+                                      color: Color(0xFF7B7B7B),
+                                      fontSize: 13,
+                                      fontFamily: 'Pretendard Variable',
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+
                   ],
                 ),
               ),
