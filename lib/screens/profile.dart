@@ -2,6 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'complete.dart';
 
 class Profile extends StatefulWidget {
@@ -14,6 +18,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   File? _selectedImage;
+  bool _isUploading = false;
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -21,6 +26,55 @@ class _ProfileState extends State<Profile> {
     if (picked != null) {
       setState(() {
         _selectedImage = File(picked.path);
+      });
+    }
+  }
+
+  Future<void> _saveProfileAndProceed() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print('사용자 없음');
+      return;
+    }
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      String? imageUrl;
+
+      // 이미지가 선택된 경우 업로드
+      if (_selectedImage != null) {
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('profile_images/${user.uid}.jpg');
+
+        await storageRef.putFile(_selectedImage!);
+        imageUrl = await storageRef.getDownloadURL();
+      }
+
+      // Firestore에 닉네임과 이미지 URL 저장
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'nickname': widget.nickname,
+        'profileImage': imageUrl ?? '',
+        'createdAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => Complete(nickname: widget.nickname),
+        ),
+      );
+    } catch (e) {
+      print('프로필 저장 실패: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('오류 발생: $e')),
+      );
+    } finally {
+      setState(() {
+        _isUploading = false;
       });
     }
   }
@@ -51,12 +105,11 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             const SizedBox(height: 133),
-
-            //  프로필 이미지
             Center(
               child: GestureDetector(
                 onTap: _pickImage,
-                child: ClipRect(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
                   child: _selectedImage != null
                       ? Image.file(
                     _selectedImage!,
@@ -73,20 +126,10 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             ),
-
             const Spacer(),
-
-            // '지금은 넘어가기'
             Center(
               child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => Complete(nickname: widget.nickname),
-                    ),
-                  );
-                },
+                onTap: _saveProfileAndProceed,
                 child: const Text(
                   '지금은 넘어가기',
                   style: TextStyle(
@@ -103,8 +146,6 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-
-      // 다음 버튼
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
         child: SizedBox(
@@ -118,15 +159,10 @@ class _ProfileState extends State<Profile> {
               ),
               elevation: 0,
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => Complete(nickname: widget.nickname),
-                ),
-              );
-            },
-            child: const Text(
+            onPressed: _isUploading ? null : _saveProfileAndProceed,
+            child: _isUploading
+                ? const CircularProgressIndicator(color: Colors.white)
+                : const Text(
               '다음',
               style: TextStyle(
                 fontSize: 19,

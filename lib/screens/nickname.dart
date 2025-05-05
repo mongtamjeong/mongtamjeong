@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';          // 인증용
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'profile.dart';
 
 class Nickname extends StatefulWidget {
@@ -92,13 +94,44 @@ class _NicknameState extends State<Nickname> {
               height: 56,
               child: ElevatedButton(
                 onPressed: _isValid
-                    ? () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Profile(nickname:_nicknameController.text)),
-                  );
+                    ? () async {
+                  final user = FirebaseAuth.instance.currentUser;
+                  await user?.reload();  // 사용자 정보 최신화
+                  if (user != null && user.emailVerified) {
+                    // Firestore에 닉네임 저장
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user.uid)
+                        .set({
+                      'nickname': _nicknameController.text.trim(),
+                      'email': user.email,
+                      'createdAt': FieldValue.serverTimestamp(),
+                    }, SetOptions(merge: true));
+
+                    // 프로필 화면으로 이동
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Profile(nickname: _nicknameController.text)),
+                    );
+                  } else {
+                    // 이메일 인증 안된 경우
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: const Text('이메일 인증 필요'),
+                        content: const Text('이메일 인증을 완료해 주세요.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('확인'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 }
                     : null,
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _isValid ? const Color(0xFFB5FFFF) : const Color(0xFFDFDFDF),
                   shape: RoundedRectangleBorder(
