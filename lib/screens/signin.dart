@@ -151,12 +151,45 @@ class _SigninState extends State<Signin> {
               const SizedBox(height: 24),
               const Text(
                 '아이디를 입력해 주세요.',
-                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, fontFamily: 'Pretendard Variable'),
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Pretendard Variable',
+                ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _idController,
-                decoration: _inputDecoration(),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _idController,
+                      decoration: _inputDecoration(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // 중복 확인 로직 (예: 서버 연동 또는 print)
+                        print('아이디 중복 확인: ${_idController.text}');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFB5FFFF),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                      child: const Text(
+                        '중복확인',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 24),
               const Text(
