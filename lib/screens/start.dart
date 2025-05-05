@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'nickname.dart';
+import 'register.dart';
+
 
 class Start extends StatelessWidget {
   @override
@@ -65,7 +67,7 @@ class Start extends StatelessWidget {
                       onTap: () {
                         // TODO: 카카오 로그인 연동 또는 임시 다음 페이지 이동
                         Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Nickname()),
+                          MaterialPageRoute(builder: (context) => const RegisterScreen()),
                         );
                       },
                       child: Container(
