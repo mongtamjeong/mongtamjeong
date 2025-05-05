@@ -41,7 +41,9 @@ class _LoginState extends State<Login> {
         centerTitle: true,
         title: const Text(
           '로그인',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 19,
+            fontFamily: 'Pretendard Variable',
+            fontWeight: FontWeight.w600,),
         ),
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(1),

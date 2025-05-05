@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'nickname.dart';
 import 'register.dart';
 import 'login.dart';
-
+import 'signin.dart';
 
 class Start extends StatelessWidget {
   @override
@@ -97,7 +96,7 @@ class Start extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Nickname()), // 예시로 닉네임 화면 연결
+                          MaterialPageRoute(builder: (context) => Signin()),
                         );
                       },
                       child: Container(
