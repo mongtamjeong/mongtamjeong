@@ -18,7 +18,8 @@ class Home extends StatelessWidget {
     }
 
     if (pickedFile != null) {
-      // TODO: 이미지 처리 로직 추가
+      print('선택된 이미지 경로: ${pickedFile.path}');
+      // 나중에 -> Firebase Storage 업로드 or TensorFlow 이미지 처리
     }
   }
 
@@ -69,7 +70,7 @@ class Home extends StatelessWidget {
             PopupMenuButton<String>(
               onSelected: (value) {
                 if (value == 'digital') {
-                  // 색상으로 찾기 기능 실행
+                  // 카테고리로 찾기 기능 실행
                 } else if (value == 'pet') {
                   // 카테고리로 찾기 기능 실행
                 } else if (value == 'clothes') {

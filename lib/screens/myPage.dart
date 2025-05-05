@@ -132,16 +132,6 @@ class _MypageState extends State<Mypage> {
                     const SizedBox(height: 12),
                     GestureDetector(
                       onTap: () {
-                        // 수정필요
-                      },
-                      child: const Text(
-                        '문의하기',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    GestureDetector(
-                      onTap: () {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
