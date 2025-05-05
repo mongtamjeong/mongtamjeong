@@ -12,7 +12,6 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   final _emailController = TextEditingController();
-  final _idController = TextEditingController();
   final _pwController = TextEditingController();
   final _pwCheckController = TextEditingController();
 
@@ -25,7 +24,6 @@ class _SigninState extends State<Signin> {
   void initState() {
     super.initState();
     _emailController.addListener(_validateForm);
-    _idController.addListener(_validateForm);
     _pwController.addListener(_validateForm);
     _pwCheckController.addListener(() {
       _validateForm();
@@ -42,7 +40,6 @@ class _SigninState extends State<Signin> {
     setState(() {
       _isEmailValid = emailRegex.hasMatch(email);
       _isFormValid = _isEmailValid &&
-          _idController.text.trim().isNotEmpty &&
           _pwController.text.trim().isNotEmpty &&
           _pwCheckController.text.trim().isNotEmpty &&
           (_pwController.text == _pwCheckController.text) &&
@@ -71,7 +68,6 @@ class _SigninState extends State<Signin> {
   @override
   void dispose() {
     _emailController.dispose();
-    _idController.dispose();
     _pwController.dispose();
     _pwCheckController.dispose();
     super.dispose();
@@ -172,16 +168,6 @@ class _SigninState extends State<Signin> {
                 ),
               const SizedBox(height: 24),
               const Text(
-                '아이디를 입력해 주세요.',
-                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, fontFamily: 'Pretendard Variable'),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _idController,
-                decoration: _inputDecoration(),
-              ),
-              const SizedBox(height: 24),
-              const Text(
                 '비밀번호를 입력해 주세요.',
                 style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, fontFamily: 'Pretendard Variable'),
               ),
@@ -226,7 +212,6 @@ class _SigninState extends State<Signin> {
                           .doc(user.uid)
                           .set({
                         'email': user.email,
-                        'userId': _idController.text.trim(),
                       });
 
                       Navigator.push(
