@@ -57,40 +57,11 @@ class Start extends StatelessWidget {
                 width: 204,
                 height: 279,
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 70),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    // 노란 버튼 - 카카오로 시작하기
-                    GestureDetector(
-                      onTap: () {
-                        // TODO: 카카오 로그인 연동 또는 임시 다음 페이지 이동
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                        );
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 61,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFCE64A),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            '카카오로 시작하기',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-
                     // 흰색 버튼 - 이메일 로그인
                     GestureDetector(
                       onTap: () {

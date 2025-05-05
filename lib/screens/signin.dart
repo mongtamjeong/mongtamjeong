@@ -9,18 +9,20 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
   final _idController = TextEditingController();
   final _pwController = TextEditingController();
   final _pwCheckController = TextEditingController();
 
+  bool _isEmailValid = false;
+  bool _emailSent = false;
   bool _isPasswordMatch = true;
   bool _isFormValid = false;
 
   @override
   void initState() {
     super.initState();
-    _phoneController.addListener(_validateForm);
+    _emailController.addListener(_validateForm);
     _idController.addListener(_validateForm);
     _pwController.addListener(_validateForm);
     _pwCheckController.addListener(() {
@@ -32,22 +34,18 @@ class _SigninState extends State<Signin> {
   }
 
   void _validateForm() {
+    final email = _emailController.text.trim();
+    final emailRegex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+
     setState(() {
-      _isFormValid = _phoneController.text.trim().isNotEmpty &&
+      _isEmailValid = emailRegex.hasMatch(email);
+      _isFormValid = _isEmailValid &&
           _idController.text.trim().isNotEmpty &&
           _pwController.text.trim().isNotEmpty &&
           _pwCheckController.text.trim().isNotEmpty &&
-          (_pwController.text == _pwCheckController.text);
+          (_pwController.text == _pwCheckController.text) &&
+          _emailSent;
     });
-  }
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    _idController.dispose();
-    _pwController.dispose();
-    _pwCheckController.dispose();
-    super.dispose();
   }
 
   InputDecoration _inputDecoration({bool error = false}) {
@@ -66,6 +64,15 @@ class _SigninState extends State<Signin> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _idController.dispose();
+    _pwController.dispose();
+    _pwCheckController.dispose();
+    super.dispose();
   }
 
   @override
@@ -94,52 +101,62 @@ class _SigninState extends State<Signin> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                '전화번호를 입력해 주세요.',
+                '이메일을 입력해 주세요.',
                 style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, fontFamily: 'Pretendard Variable'),
               ),
               const SizedBox(height: 8),
               TextField(
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: _inputDecoration(),
               ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  height: 44,
+                  child: ElevatedButton(
+                    onPressed: _isEmailValid
+                        ? () {
+                      setState(() {
+                        _emailSent = true; // UI 시뮬레이션용
+                        _validateForm();
+                      });
+                    }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFB5FFFF),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                    ),
+                    child: const Text(
+                      '인증메일 보내기',
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+              ),
+              if (_emailSent)
+                const Padding(
+                  padding: EdgeInsets.only(top: 4),
+                  child: Text(
+                    '이메일을 확인해 주세요.',
+                    style: TextStyle(color: Colors.green, fontSize: 13, fontFamily: 'Pretendard Variable'),
+                  ),
+                ),
               const SizedBox(height: 24),
               const Text(
                 '아이디를 입력해 주세요.',
                 style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, fontFamily: 'Pretendard Variable'),
               ),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _idController,
-                      decoration: _inputDecoration(),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // 중복 확인 로직
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFB5FFFF),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                      ),
-                      child: const Text(
-                        '중복확인',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  )
-                ],
+              TextField(
+                controller: _idController,
+                decoration: _inputDecoration(),
               ),
               const SizedBox(height: 24),
               const Text(
@@ -171,7 +188,7 @@ class _SigninState extends State<Signin> {
                     style: TextStyle(color: Colors.red, fontSize: 13, fontFamily: 'Pretendard Variable'),
                   ),
                 ),
-              const SizedBox(height: 40), // Spacer 대신 여백
+              const SizedBox(height: 40),
               SizedBox(
                 width: double.infinity,
                 height: 56,

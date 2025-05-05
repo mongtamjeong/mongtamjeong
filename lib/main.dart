@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/start.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();        // Flutter 비동기 초기화
   await Firebase.initializeApp();
