@@ -80,7 +80,6 @@ class _FindFound1State extends State<FindFound1> {
       ),
 
       // 게시글 리스트
-      // 게시글 리스트
       body: _loading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -114,7 +113,12 @@ class _FindFound1State extends State<FindFound1> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          Text(
+                            '찾아요/찾았어요',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                           Text(
                             '${item['company']} · ${timeAgoFromNow(item['regDate'])}',
                             style: TextStyle(
