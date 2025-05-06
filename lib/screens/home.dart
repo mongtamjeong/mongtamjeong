@@ -69,23 +69,32 @@ class Home extends StatelessWidget {
             SizedBox(height: 23),
             PopupMenuButton<String>(
               onSelected: (value) {
-                if (value == 'digital') {
+                if (value == 'bag') {
                   // 카테고리로 찾기 기능 실행
-                } else if (value == 'pet') {
+                } else if (value == 'document') {
+                  // 카테고리로 찾기 기능 실행
+                } else if (value == 'shoppingbag') {
                   // 카테고리로 찾기 기능 실행
                 } else if (value == 'clothes') {
                   // 카테고리로 찾기 기능 실행
-                } else if (value == 'goods') {
+                } else if (value == 'wallet') {
+                  // 카테고리로 찾기 기능 실행
+                } else if (value == 'book') {
+                  // 카테고리로 찾기 기능 실행
+                } else if (value == 'phone') {
                   // 카테고리로 찾기 기능 실행
                 } else if (value == 'etc') {
                   // 카테고리로 찾기 기능 실행
                 }
               },
               itemBuilder: (context) => [
-                const PopupMenuItem(value: 'digital', child: Text('디지털')),
-                const PopupMenuItem(value: 'pet', child: Text('전자기기')),
-                const PopupMenuItem(value: 'clothes', child: Text('의류')),
-                const PopupMenuItem(value: 'goods', child: Text('잡화')),
+                const PopupMenuItem(value: 'bag', child: Text('가방')),
+                const PopupMenuItem(value: 'document', child: Text('서류봉투')),
+                const PopupMenuItem(value: 'shoppingbag', child: Text('쇼핑백')),
+                const PopupMenuItem(value: 'clothes', child: Text('옷')),
+                const PopupMenuItem(value: 'wallet', child: Text('지갑')),
+                const PopupMenuItem(value: 'book', child: Text('책')),
+                const PopupMenuItem(value: 'phone', child: Text('핸드폰')),
                 const PopupMenuItem(value: 'etc', child: Text('기타')),
 
               ],

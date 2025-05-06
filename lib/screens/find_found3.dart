@@ -12,7 +12,7 @@ class FindFound3 extends StatefulWidget {
 class _FindFound3State extends State<FindFound3> {
   File? _selectedImage; // 선택된 이미지 저장용
   String? selectedCategory;
-  final List<String> categoryOptions = ['전자기기', '반려동물', '의류', '잡화', '기타'];
+  final List<String> categoryOptions = ['가방', '서류봉투', '쇼핑', '옷','지갑', '책','핸드폰', '기타'];
 
 
   Future<void> _pickImage() async {
