@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'wishList.dart';
 import 'find_found3.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
+
 
 class NoData extends StatelessWidget {
   @override
@@ -105,25 +107,30 @@ class NoData extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // 지도 자리
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(24),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEAEAEA),
+                  SizedBox(
+                    height: 300,
+                    child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Text(
-                      '(지도 들어갈 자리)',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Pretendard Variable',
-                        fontWeight: FontWeight.w500,
-                      ),
+                      child: NaverMap(
+                        options: const NaverMapViewOptions(
+                          initialCameraPosition: NCameraPosition(
+                            target: NLatLng(37.4504, 126.6535), // 인하대 위치
+                            zoom: 15,
+                          ),
+                        ),
+                        onMapReady: (controller) async {
+
+                          // 📍 마커 추가
+                          final marker = NMarker(
+                            id: "marker",
+                            position: NLatLng(37.4504, 126.6535),
+                          );
+
+                          await controller.addOverlay(marker);
+                        },
+                      )
                     ),
                   ),
-
                   const SizedBox(height: 32),
                 ],
               ),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'wishList.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'institutionMap.dart';
+import 'find_found3.dart';
+import 'find_found4.dart';
 
 
-class ItemInformationPublic extends StatefulWidget {
+class ItemInformationUserEditErase extends StatefulWidget {
   @override
-  State<ItemInformationPublic> createState() => _ItemInformationPublicState();
+  State<ItemInformationUserEditErase> createState() => _ItemInformationUserEditEraseState();
 }
 
-class _ItemInformationPublicState extends State<ItemInformationPublic> {
+class _ItemInformationUserEditEraseState extends State<ItemInformationUserEditErase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +89,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
                             Text(
-                              '기관이름',
+                              '닉네임',
                               style: TextStyle(
                                 color: Color(0xFF212121),
                                 fontSize: 16,
@@ -99,7 +100,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                             Text(
                               '위치',
                               style: TextStyle(
-                                color: Color(0xFFAEAEAE),
+                                color:  Color(0xFFAEAEAE),
                                 fontSize: 13,
                                 fontFamily: 'Pretendard Variable',
                                 fontWeight: FontWeight.w400,
@@ -118,13 +119,48 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                   const Text(
                     '본문 내용\n\n가나다라마바사 아자차카타파하\n디자인 차력쇼를 보여드리겠습니다\n\n안녕하세요 감사합니다 영어로 땡큐 중국어로 쎼쎼\n\n반택만 합니다\n직거래 안합니다\n\n하자 오염 없습니다\n\n커어어억.... 드렁슨',
                     style: TextStyle(
-                      color: Color(0xFF212121),
+                      color:  Color(0xFF212121),
                       fontSize: 16,
                       fontFamily: 'Pretendard Variable',
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push( //찾아요라면 findfound3,찾았어요라면 findfound4로
+                            context,
+                            MaterialPageRoute(builder: (_) => FindFound3()),
+                          );
+                        },
+                        child: const Text(
+                          '수정',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {
+                          // 삭제 시 수행
+                        },
+                        child: const Text(
+                          '삭제',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
 
                 ],
@@ -151,23 +187,18 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                 Row(
                   children: const [
                     Icon(Icons.favorite, color: Colors.grey),
+                    SizedBox(width: 26.23),
+                    Text(
+                      '현상금 얼마',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => InstitutionMap(
-                          latitude: 37.4504, // 기관 위도 (예: 인하대학교)
-                          longitude: 126.6535, // 기관 경도
-                          name: '인하대학교', // 기관 이름
-                        ),
-                      ),
-                    );
+                    // 채팅 페이지 이동 등
                   },
-
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFB5FFFF),
                     elevation: 0,
@@ -176,7 +207,7 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                     ),
                   ),
                   child: const Text(
-                    '지도보기',
+                    '채팅하기',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

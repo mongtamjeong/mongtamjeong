@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              '아이디를 입력해 주시오.',
+              '이메일을 입력해 주시오.',
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, fontFamily: 'Pretendard Variable'),
             ),
             const SizedBox(height: 8),
