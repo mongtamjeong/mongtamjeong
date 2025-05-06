@@ -6,10 +6,10 @@ import 'package:image_picker/image_picker.dart';
 
 class FindFound4 extends StatefulWidget {
   @override
-  State<FindFound4> createState() => _FindFound3State();
+  State<FindFound4> createState() => _FindFound4State();
 }
 
-class _FindFound3State extends State<FindFound4> {
+class _FindFound4State extends State<FindFound4> {
   File? _selectedImage; // 선택된 이미지 저장용
   String? selectedCategory;
   final List<String> categoryOptions = ['가방', '서류봉투', '쇼핑', '옷','지갑', '책','핸드폰', '기타'];

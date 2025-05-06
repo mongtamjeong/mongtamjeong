@@ -148,43 +148,43 @@ class _FindFound1State extends State<FindFound1> {
 
       //플로팅 액션 버튼
     floatingActionButton: FloatingActionButton(
-    onPressed: () {
-    showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (context) {
-    return Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-    ListTile(
-    title: const Text('찾아요'),
-    onTap: () {
-    Navigator.pop(context);
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => FindFound3()),
-    );
-    },
-    ),
-    ListTile(
-    title: const Text('찾았어요'),
-    onTap: () {
-    Navigator.pop(context);
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => FindFound4()),
-    );
-    },
-    ),
-    ],
-    );
-    },
-    );
-    },
-    backgroundColor: const Color(0xFFB5FFFF),
-    child: const Icon(Icons.add, color: Colors.white),
+      onPressed: () {
+      showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+      return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+      ListTile(
+      title: const Text('찾아요'),
+      onTap: () {
+      Navigator.pop(context);
+      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FindFound3()),
+      );
+      },
+      ),
+      ListTile(
+      title: const Text('찾았어요'),
+      onTap: () {
+      Navigator.pop(context);
+      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FindFound4()),
+      );
+      },
+      ),
+      ],
+      );
+      },
+      );
+      },
+      backgroundColor: const Color(0xFFB5FFFF),
+      child: const Icon(Icons.add, color: Colors.white),
     ),
 
     //하단 네비게이션 바
