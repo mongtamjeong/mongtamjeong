@@ -96,7 +96,6 @@ class Home extends StatelessWidget {
                 const PopupMenuItem(value: 'book', child: Text('책')),
                 const PopupMenuItem(value: 'phone', child: Text('핸드폰')),
                 const PopupMenuItem(value: 'etc', child: Text('기타')),
-
               ],
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

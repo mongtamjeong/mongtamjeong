@@ -7,6 +7,7 @@ import 'find_found3.dart';
 import 'find_found4.dart';
 import '../services/post_service.dart';
 
+
 String timeAgoFromNow(String isoDate) {
   final dateTime = DateTime.parse(isoDate).toLocal();
   final now = DateTime.now();
@@ -18,6 +19,7 @@ String timeAgoFromNow(String isoDate) {
   if (difference.inDays < 7) return '${difference.inDays}일 전';
   return '${dateTime.year}.${dateTime.month}.${dateTime.day}';
 }
+
 
 class FindFound1 extends StatefulWidget {
   @override
@@ -39,7 +41,7 @@ class _FindFound1State extends State<FindFound1> {
     final userPosts = await _postService.getAllPosts();
     final apiPosts = await _postService.getOpenApiLostItems();
 
-    userPosts.sort((a, b) => (b['regDate'] ?? '').compareTo(a['regDate'] ?? ''));
+    userPosts.sort((a, b) => (b['regDate']
 
     setState(() {
       _items = [...userPosts, ...apiPosts];
@@ -83,6 +85,8 @@ class _FindFound1State extends State<FindFound1> {
           ),
         ),
       ),
+
+      // 게시글 리스트
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -126,7 +130,12 @@ class _FindFound1State extends State<FindFound1> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          Text(
+                            '찾아요/찾았어요',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                           Text(
                             subtitle,
                             style: const TextStyle(

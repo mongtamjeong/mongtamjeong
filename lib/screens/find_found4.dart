@@ -10,7 +10,7 @@ class FindFound4 extends StatefulWidget {
 }
 
 class _FindFound4State extends State<FindFound4> {
-  File? _selectedImage;
+  File? _selectedImage; // 선택된 이미지 저장용
   String? selectedCategory;
   final List<String> categoryOptions = ['가방', '서류봉투', '쇼핑', '옷','지갑', '책','핸드폰', '기타'];
 
@@ -77,6 +77,8 @@ class _FindFound4State extends State<FindFound4> {
           child: Divider(height: 1, thickness: 1, color: Color(0xFFDDDDDD)),
         ),
       ),
+
+      //게시물 올리기
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: Column(
@@ -84,6 +86,8 @@ class _FindFound4State extends State<FindFound4> {
           children: [
             const Text('상품정보', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
+
+            // 2. 사진 등록 박스
             GestureDetector(
               onTap: _pickImage,
               child: Container(
@@ -110,12 +114,16 @@ class _FindFound4State extends State<FindFound4> {
                     : null,
               ),
             ),
+
+
             const SizedBox(height: 24),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(hintText: '제목', border: UnderlineInputBorder()),
             ),
             const SizedBox(height: 16),
+
+            // 4. 카테고리
             DropdownButtonFormField<String>(
               isDense: true,
               value: selectedCategory,
@@ -162,6 +170,10 @@ class _FindFound4State extends State<FindFound4> {
           ],
         ),
       ),
+
+
+
+      //플로팅 액션 버튼
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: SizedBox(
