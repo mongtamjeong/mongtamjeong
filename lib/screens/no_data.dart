@@ -107,7 +107,6 @@ class NoData extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // 지도 자리
-                  // 지도 들어갈 자리
                   SizedBox(
                     height: 300,
                     child: ClipRRect(
@@ -115,20 +114,21 @@ class NoData extends StatelessWidget {
                       child: NaverMap(
                         options: const NaverMapViewOptions(
                           initialCameraPosition: NCameraPosition(
-                            target: NLatLng(37.5665, 126.9780), // 서울시청 위치
-                            zoom: 14,
+                            target: NLatLng(37.4504, 126.6535), // 인하대 위치
+                            zoom: 15,
                           ),
                         ),
-                        onMapReady: (controller) {
-                          print('지도 준비 완료!');
-                          controller.updateCamera(
-                            NCameraUpdate.scrollAndZoomTo(
-                              target: const NLatLng(37.5665, 126.9780),
-                              zoom: 14,
-                            ),
+                        onMapReady: (controller) async {
+
+                          // 📍 마커 추가
+                          final marker = NMarker(
+                            id: "marker",
+                            position: NLatLng(37.4504, 126.6535),
                           );
+
+                          await controller.addOverlay(marker);
                         },
-                      ),
+                      )
                     ),
                   ),
                   const SizedBox(height: 32),
