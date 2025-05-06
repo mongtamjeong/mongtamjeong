@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/start.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
-import 'screens/myPage.dart';
 
 
 void main() async {
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '몽탐정',
       debugShowCheckedModeBanner: false,
-      home: Mypage(),
+      home: Start(),
     );
   }
 }
