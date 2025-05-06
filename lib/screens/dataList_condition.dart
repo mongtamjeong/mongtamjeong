@@ -113,6 +113,13 @@ class _DatalistConditionState extends State<DatalistCondition> {
                                     ),
                                     SizedBox(height: 4),
                                     Text(
+                                      '찾아요/찾았어요',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
                                       '어디어디 · 10분 전',
                                       style: TextStyle(
                                         fontSize: 16,
