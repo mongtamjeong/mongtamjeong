@@ -5,7 +5,6 @@ import 'firebase_options.dart';
 import 'services/firestore_service.dart';   // ✅ saveToFirestore
 import 'screens/start.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
-import 'screens/find_found1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();  // Flutter 비동기 초기화
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '몽탐정',
       debugShowCheckedModeBanner: false,
-      home: FindFound1(),
+      home: Start(),
     );
   }
 }
