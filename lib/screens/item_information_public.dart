@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'wishList.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'institutionMap.dart';
 
 
 class ItemInformationPublic extends StatefulWidget {
@@ -155,8 +156,18 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    // 지도로 이동 등
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => InstitutionMap(
+                          latitude: 37.4504, // 기관 위도 (예: 인하대학교)
+                          longitude: 126.6535, // 기관 경도
+                          name: '인하대학교', // 기관 이름
+                        ),
+                      ),
+                    );
                   },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFB5FFFF),
                     elevation: 0,
