@@ -41,7 +41,7 @@ class _FindFound1State extends State<FindFound1> {
     final userPosts = await _postService.getAllPosts();
     final apiPosts = await _postService.getOpenApiLostItems();
 
-    userPosts.sort((a, b) => (b['regDate']
+    userPosts.sort((a, b) => (b['regDate'] ?? '').compareTo(a['regDate'] ?? ''));
 
     setState(() {
       _items = [...userPosts, ...apiPosts];
