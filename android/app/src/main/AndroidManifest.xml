@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
-        android:label="mongtamjeong"
+        android:label="몽탐정"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data
