@@ -127,6 +127,13 @@ class _DatalistImageState extends State<DatalistImage> {
                                         color: Colors.grey,
                                       ),
                                     ),
+                                    SizedBox(height: 22,),
+                                    Text(
+                                      '현상금 ㅇㅇㅇ원',
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

@@ -126,6 +126,13 @@ class _DatalistConditionState extends State<DatalistCondition> {
                                         color: Colors.grey,
                                       ),
                                     ),
+                                    SizedBox(height: 22,),
+                                    Text(
+                                      '현상금 ㅇㅇㅇ원',
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
