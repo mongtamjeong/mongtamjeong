@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'myPost.dart';
 import 'chat1.dart';
 import 'find_found1.dart';
 import 'home.dart';
@@ -121,6 +122,11 @@ class _MypageState extends State<Mypage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Mypost())),
+              child: const Text('내가 쓴 글 보기', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 12),
             GestureDetector(
               onTap: () => _showVersionInfo(context),
               child: const Text('버전정보', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
