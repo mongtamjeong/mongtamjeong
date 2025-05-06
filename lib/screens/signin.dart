@@ -120,8 +120,7 @@ class _SigninState extends State<Signin> {
                         final credential = await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                           email: _emailController.text.trim(),
-                          password: _pwController.text.trim().isEmpty
-                              ? "temporaryPassword123!" // 안전하게 기본 비밀번호 제공
+                          password: _pwController.text.trim().isEmpty? "temporaryPassword123!" // 안전하게 기본 비밀번호 제공
                               : _pwController.text.trim(),
                         );
 

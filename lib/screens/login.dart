@@ -10,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
   bool _isButtonEnabled = false;
   String? _errorMessage;
@@ -18,13 +18,13 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    _idController.addListener(_validateFields);
+    _emailController.addListener(_validateFields);
     _pwController.addListener(_validateFields);
   }
 
   void _validateFields() {
     setState(() {
-      _isButtonEnabled = _idController.text.trim().isNotEmpty &&
+      _isButtonEnabled = _emailController.text.trim().isNotEmpty &&
           _pwController.text.trim().isNotEmpty;
     });
   }
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
   Future<void> _login() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _idController.text.trim(),
+        email: _emailController.text.trim(),
         password: _pwController.text.trim(),
       );
 
@@ -42,11 +42,28 @@ class _LoginState extends State<Login> {
         MaterialPageRoute(builder: (_) => Home()),
       );
     } on FirebaseAuthException catch (e) {
-      String message = '로그인 실패';
-      if (e.code == 'user-not-found') {
-        message = '존재하지 않는 계정입니다.';
-      } else if (e.code == 'wrong-password') {
-        message = '비밀번호가 틀렸습니다.';
+      String message;
+      switch (e.code) {
+        case 'user-not-found':
+          message = '존재하지 않는 계정입니다.';
+          break;
+        case 'wrong-password':
+          message = '비밀번호가 틀렸습니다.';
+          break;
+        case 'invalid-email':
+          message = '이메일 형식이 올바르지 않습니다.';
+          break;
+        case 'user-disabled':
+          message = '해당 계정은 비활성화되었습니다.';
+          break;
+        case 'too-many-requests':
+          message = '요청이 너무 많습니다. 나중에 다시 시도하세요.';
+          break;
+        case 'operation-not-allowed':
+          message = '이메일 로그인 기능이 활성화되지 않았습니다.';
+          break;
+        default:
+          message = '로그인 실패 (${e.code})';
       }
       setState(() {
         _errorMessage = message;
@@ -59,7 +76,7 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    _idController.dispose();
+    _emailController.dispose();
     _pwController.dispose();
     super.dispose();
   }
@@ -86,7 +103,7 @@ class _LoginState extends State<Login> {
             ),
             const SizedBox(height: 8),
             TextField(
-              controller: _idController,
+              controller: _emailController,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
                 border: OutlineInputBorder(
