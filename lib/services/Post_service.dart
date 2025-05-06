@@ -1,6 +1,7 @@
-//게시물 업로드 (찾아요, 찾았어요 글 업로드)
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class PostService {
@@ -36,6 +37,9 @@ class PostService {
     await _firestore.collection(type == 'lost' ? 'lost_posts' : 'found_posts')
         .doc(postId)
         .set(postData);
+
+    // ✅ 업로드 후 캐시 삭제
+    await clearLostItemsCache();
   }
 
   // 전체 게시글 가져오기 (lost + found)
@@ -51,11 +55,19 @@ class PostService {
     return allPosts;
   }
 
-  // 공공데이터: lostItems 컬렉션에서 company, regDate, name만 가져오기
+  // 공공데이터: lostItems 컬렉션에서 company, regDate, name만 가져오기 (캐시 적용)
   Future<List<Map<String, dynamic>>> getOpenApiLostItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cachedData = prefs.getString('cached_lost_items');
+
+    if (cachedData != null) {
+      final List<dynamic> decoded = jsonDecode(cachedData);
+      return decoded.map((e) => Map<String, dynamic>.from(e)).toList();
+    }
+
     final snapshot = await _firestore.collection('lostItems').get();
 
-    return snapshot.docs.map((doc) {
+    final items = snapshot.docs.map((doc) {
       final data = doc.data();
       return {
         'company': data['company'],
@@ -63,5 +75,14 @@ class PostService {
         'name': data['name'],
       };
     }).toList();
+
+    await prefs.setString('cached_lost_items', jsonEncode(items));
+    return items;
   }
-}
+
+  // 캐시 초기화
+  Future<void> clearLostItemsCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('cached_lost_items');
+  }
+} 
