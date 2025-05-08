@@ -56,47 +56,47 @@ def analyze_image():
         "predicted_category": category
     })
 
-# ====== [2] 이미지 유사도 비교 (DINOv2) ======
-transform = T.Compose([
-    T.Resize(224, interpolation=InterpolationMode.BICUBIC),
-    T.CenterCrop(224),
-    T.ToTensor(),
-    T.Normalize([0.5]*3, [0.5]*3),
-])
-dinov2 = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')
-dinov2.eval()
+# # ====== [2] 이미지 유사도 비교 (DINOv2) ======
+# transform = T.Compose([
+#     T.Resize(224, interpolation=InterpolationMode.BICUBIC),
+#     T.CenterCrop(224),
+#     T.ToTensor(),
+#     T.Normalize([0.5]*3, [0.5]*3),
+# ])
+# dinov2 = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')
+# dinov2.eval()
 
-def load_image(file_storage):
-    img = Image.open(file_storage).convert("RGB")
-    return transform(img).unsqueeze(0)
+# def load_image(file_storage):
+#     img = Image.open(file_storage).convert("RGB")
+#     return transform(img).unsqueeze(0)
 
-@app.route("/match", methods=["POST"])
-def compare_images():
-    uploaded = request.files.get("image")  # 사용자 업로드 이미지
-    db_image_url = request.form.get("db_image_url")  # 기존 이미지 URL
+# @app.route("/match", methods=["POST"])
+# def compare_images():
+#     uploaded = request.files.get("image")  # 사용자 업로드 이미지
+#     db_image_url = request.form.get("db_image_url")  # 기존 이미지 URL
 
-    if not uploaded or not db_image_url:
-        return jsonify({"error": "Image file and db_image_url required"}), 400
+#     if not uploaded or not db_image_url:
+#         return jsonify({"error": "Image file and db_image_url required"}), 400
 
-    # 업로드 이미지 처리
-    img1 = load_image(uploaded)
+#     # 업로드 이미지 처리
+#     img1 = load_image(uploaded)
 
-    # DB 이미지 URL에서 다운로드
-    try:
-        response = requests.get(db_image_url)
-        response.raise_for_status()
-        db_img = Image.open(BytesIO(response.content)).convert("RGB")
-        img2 = transform(db_img).unsqueeze(0)
-    except Exception as e:
-        return jsonify({"error": f"Failed to load db image: {str(e)}"}), 500
+#     # DB 이미지 URL에서 다운로드
+#     try:
+#         response = requests.get(db_image_url)
+#         response.raise_for_status()
+#         db_img = Image.open(BytesIO(response.content)).convert("RGB")
+#         img2 = transform(db_img).unsqueeze(0)
+#     except Exception as e:
+#         return jsonify({"error": f"Failed to load db image: {str(e)}"}), 500
 
-    # 유사도 계산
-    with torch.no_grad():
-        feat1 = F.normalize(dinov2(img1), dim=-1)
-        feat2 = F.normalize(dinov2(img2), dim=-1)
-        sim = F.cosine_similarity(feat1, feat2).item() * 100
+#     # 유사도 계산
+#     with torch.no_grad():
+#         feat1 = F.normalize(dinov2(img1), dim=-1)
+#         feat2 = F.normalize(dinov2(img2), dim=-1)
+#         sim = F.cosine_similarity(feat1, feat2).item() * 100
 
-    return jsonify({"similarity": round(sim, 2)})
+#     return jsonify({"similarity": round(sim, 2)})
 
 # ====== [3] 텍스트 기반 질문 생성 (GPT-4 API) ======
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
