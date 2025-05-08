@@ -17,6 +17,7 @@ class _FindFound3State extends State<FindFound3> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _rewardController = TextEditingController();
+  final TextEditingController _placeController = TextEditingController();
 
   DateTime? _selectedDate; // 선택된 날짜
   TimeOfDay? _selectedTime; // 선택된 시간
@@ -74,7 +75,8 @@ class _FindFound3State extends State<FindFound3> {
   Future<void> _submitPost() async {
     if (selectedCategory == null ||
         _titleController.text.isEmpty ||
-        _descController.text.isEmpty) {
+        _descController.text.isEmpty ||
+        _placeController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('모든 항목을 입력해 주세요.')),
       );
@@ -92,7 +94,7 @@ class _FindFound3State extends State<FindFound3> {
       await PostWriteService().uploadLostPost(
         name: _titleController.text,
         kind: selectedCategory!,
-        place: '',
+        place: _placeController.text,
         description: _descController.text,
         reward: _rewardController.text,
         imageUrl: imageUrl,
@@ -168,6 +170,7 @@ class _FindFound3State extends State<FindFound3> {
             ),
             const SizedBox(height: 24),
 
+
             // 날짜와 시간 선택 필드
             const Text('잃어버린 시간', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
@@ -186,6 +189,18 @@ class _FindFound3State extends State<FindFound3> {
               ),
             ),
 
+            const SizedBox(height: 24),
+
+            // 물건을 주운 장소 입력 필드
+            const Text('물건을 주운 장소', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _placeController,
+              decoration: const InputDecoration(
+                hintText: '장소를 입력하세요',
+                border: UnderlineInputBorder(),
+              ),
+            ),
             const SizedBox(height: 24),
 
             const Text('설명', style: TextStyle(fontWeight: FontWeight.bold)),
