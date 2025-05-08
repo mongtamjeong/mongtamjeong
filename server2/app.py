@@ -8,9 +8,7 @@ import requests
 from io import BytesIO
 import firebase_admin
 import os
-from firebase_admin import credentials, firestore, initialize_app
-
-app = Flask(__name__)
+from firebase_admin import credentials, firestore, initialize_app 
 
 FIREBASE_KEY_PATH = os.environ["FIREBASE_CREDENTIALS_PATH"]
 
@@ -19,7 +17,6 @@ initialize_app(cred)
 fs_db = firestore.client()
 
 match_bp = Blueprint("match", __name__)
-app.register_blueprint(match_bp)  
 
 transform = T.Compose([
     T.Resize(224, interpolation=InterpolationMode.BICUBIC),
@@ -80,6 +77,9 @@ def match_from_firestore():
 
     results = sorted(results, key=lambda x: x.get("similarity", 0), reverse=True)
     return jsonify(results[:5])
+
+app = Flask(__name__)
+app.register_blueprint(match_bp) 
 
 if __name__ == "__main__":
     import os

@@ -2,10 +2,7 @@ from flask import Blueprint, request, jsonify,Flask
 from openai import OpenAI
 import os
 
-app = Flask(__name__)
-
-keyword_bp = Blueprint("keyword", __name__)
-app.register_blueprint(keyword_bp)   
+keyword_bp = Blueprint("keyword", __name__)   
 
 api_key = os.environ["OPENAI_API_KEY"]
 client = OpenAI(api_key=api_key)  # 키 그대로 넣어도 됨
@@ -27,6 +24,9 @@ def extract_keywords():
         temperature=0.3
     )
     return jsonify({"result": response.choices[0].message.content})
+
+app = Flask(__name__)
+app.register_blueprint(keyword_bp)
 
 if __name__ == "__main__":
     import os

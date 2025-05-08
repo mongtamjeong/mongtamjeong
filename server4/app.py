@@ -2,10 +2,7 @@ from flask import Blueprint, request, jsonify,Flask
 import pandas as pd
 import io
 
-app = Flask(__name__)
-
-location_bp = Blueprint("location", __name__)
-app.register_blueprint(location_bp)   
+location_bp = Blueprint("location", __name__) 
 
 with open('data.csv', 'rb') as f:
     raw = f.read()
@@ -37,6 +34,9 @@ def recommend_location():
         return jsonify({"error": "No keyword provided"}), 400
     result = recommend_place(keyword)
     return jsonify(result)
+
+app = Flask(__name__)
+app.register_blueprint(location_bp)  
 
 if __name__ == "__main__":
     import os
