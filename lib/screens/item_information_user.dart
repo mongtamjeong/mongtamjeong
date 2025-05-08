@@ -3,7 +3,23 @@ import 'wishList.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
+String timeAgoFromNow(String isoDate) {
+  final dateTime = DateTime.parse(isoDate).toLocal();
+  final now = DateTime.now();
+  final difference = now.difference(dateTime);
+
+  if (difference.inMinutes < 1) return '방금 전';
+  if (difference.inMinutes < 60) return '${difference.inMinutes}분 전';
+  if (difference.inHours < 24) return '${difference.inHours}시간 전';
+  if (difference.inDays < 7) return '${difference.inDays}일 전';
+  return '${dateTime.year}.${dateTime.month}.${dateTime.day}';
+}
+
+
+
 class ItemInformationUser extends StatefulWidget {
+  final Map<String, dynamic> post;
+  const ItemInformationUser({Key? key, required this.post}) : super(key: key);
   @override
   State<ItemInformationUser> createState() => _ItemInformationUserState();
 }
@@ -44,9 +60,9 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
                   const SizedBox(height: 20),
 
                   // 제목
-                  const Text(
-                    '저 진짜 너무 힘드네요.. 힘드네요..',
-                    style: TextStyle(
+                  Text(
+                    widget.post['name'] ?? '제목 없음',
+                    style: const TextStyle(
                       color: Color(0xFF212121),
                       fontSize: 19,
                       fontFamily: 'Pretendard Variable',
@@ -55,9 +71,9 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
                   ),
 
                   const SizedBox(height: 8),
-                  const Text(
-                    '분류/아찌고/똥    5분 전',
-                    style: TextStyle(
+                  Text(
+                    '${widget.post['kind'] ?? '분류없음'}   ${timeAgoFromNow(widget.post['regDate'] ?? DateTime.now().toIso8601String())}',
+                    style: const TextStyle(
                       color: Color(0xFFAEAEAE),
                       fontSize: 13,
                       fontFamily: 'Pretendard Variable',
@@ -76,19 +92,40 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
                         SizedBox(
                           height: 54,
                           width: 54,
-                          child: SvgPicture.asset(
-                            'assets/images/profileImage_noCamera.svg', // 너의 실제 SVG 경로로 바꿔줘
-                            fit: BoxFit.cover,
-                          ),
+                          child: (() {
+                            final profileImage = widget.post['profileImage'] as String? ?? '';
+                            if (profileImage.isNotEmpty) {
+                              return ClipOval(
+                                child: Image.network(
+                                  profileImage,
+                                  fit: BoxFit.cover,
+                                  width: 54,
+                                  height: 54,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return SvgPicture.asset(
+                                      'assets/images/profileImage_noCamera.svg',
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              return SvgPicture.asset(
+                                'assets/images/profileImage_noCamera.svg',
+                                fit: BoxFit.cover,
+                              );
+                            }
+                          })(),
                         ),
+
 
                         const SizedBox(width: 19),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              '닉네임',
-                              style: TextStyle(
+                              widget.post['nickname'] ?? '이름없음',
+                              style: const TextStyle(
                                 color: Color(0xFF212121),
                                 fontSize: 16,
                                 fontFamily: 'Pretendard Variable',
@@ -96,8 +133,8 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
                               ),
                             ),
                             Text(
-                              '위치',
-                              style: TextStyle(
+                              widget.post['place'] ?? '-',
+                              style: const TextStyle(
                                 color:  Color(0xFFAEAEAE),
                                 fontSize: 13,
                                 fontFamily: 'Pretendard Variable',
@@ -114,9 +151,9 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
                   const SizedBox(height: 20),
 
                   // 본문
-                  const Text(
-                    '본문 내용\n\n가나다라마바사 아자차카타파하\n디자인 차력쇼를 보여드리겠습니다\n\n안녕하세요 감사합니다 영어로 땡큐 중국어로 쎼쎼\n\n반택만 합니다\n직거래 안합니다\n\n하자 오염 없습니다\n\n커어어억.... 드렁슨',
-                    style: TextStyle(
+                  Text(
+                    widget.post['description'] ?? '-',
+                    style: const TextStyle(
                       color:  Color(0xFF212121),
                       fontSize: 16,
                       fontFamily: 'Pretendard Variable',
@@ -148,12 +185,12 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
             child: Row(
               children: [
                 Row(
-                  children: const [
+                  children: [
                     Icon(Icons.favorite, color: Colors.grey),
                     SizedBox(width: 26.23),
                     Text(
-                      '현상금 얼마',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      widget.post['reward'] ?? '현상금 없음',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

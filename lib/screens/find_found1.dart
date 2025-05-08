@@ -6,7 +6,8 @@ import 'home.dart';
 import 'find_found3.dart';
 import 'find_found4.dart';
 import '../services/post_service.dart';
-
+import 'item_information_user.dart';
+import 'item_information_public.dart';
 
 String timeAgoFromNow(String isoDate) {
   final dateTime = DateTime.parse(isoDate).toLocal();
@@ -19,7 +20,6 @@ String timeAgoFromNow(String isoDate) {
   if (difference.inDays < 7) return '${difference.inDays}일 전';
   return '${dateTime.year}.${dateTime.month}.${dateTime.day}';
 }
-
 
 class FindFound1 extends StatefulWidget {
   @override
@@ -85,8 +85,6 @@ class _FindFound1State extends State<FindFound1> {
           ),
         ),
       ),
-
-      // 게시글 리스트
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -96,67 +94,81 @@ class _FindFound1State extends State<FindFound1> {
           final title = item['name'] != null ? '${item['name']} 주인 찾아요' : '제목 없음';
           final subtitle = '${item['company'] ?? item['place'] ?? '출처 없음'} · ${item['regDate'] != null ? timeAgoFromNow(item['regDate']) : ''}';
 
-          return Column(
-            children: [
-              Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 123,
-                      height: 123,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(8),
-                        image: item['imageUrl'] != null && item['imageUrl'].toString().isNotEmpty
-                            ? DecorationImage(
-                          image: NetworkImage(item['imageUrl']),
-                          fit: BoxFit.cover,
-                        )
-                            : null,
+          return GestureDetector(
+            onTap: () {
+              if (item.containsKey('registerarId')) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemInformationUser(post: item),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemInformationPublic(post: item),
+                  ),
+                );
+              }
+            },
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 123,
+                        height: 123,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          image: item['imageUrl'] != null && item['imageUrl'].toString().isNotEmpty
+                              ? DecorationImage(
+                            image: NetworkImage(item['imageUrl']),
+                            fit: BoxFit.cover,
+                          )
+                              : null,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            style: const TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '찾아요/찾았어요',
-                            style: TextStyle(
-                              fontSize: 16,
+                            const SizedBox(height: 4),
+                            Text(
+                              subtitle,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            subtitle,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: Color(0xFFDDDDDD),
-                indent: 16,
-                endIndent: 16,
-              ),
-            ],
+                const Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: Color(0xFFDDDDDD),
+                  indent: 16,
+                  endIndent: 16,
+                ),
+              ],
+            ),
           );
         },
       ),

@@ -4,7 +4,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'institutionMap.dart';
 
 
+String timeAgoFromNow(String isoDate) {
+  final dateTime = DateTime.parse(isoDate).toLocal();
+  final now = DateTime.now();
+  final difference = now.difference(dateTime);
+
+  if (difference.inMinutes < 1) return '방금 전';
+  if (difference.inMinutes < 60) return '${difference.inMinutes}분 전';
+  if (difference.inHours < 24) return '${difference.inHours}시간 전';
+  if (difference.inDays < 7) return '${difference.inDays}일 전';
+  return '${dateTime.year}.${dateTime.month}.${dateTime.day}';
+}
+
+
+
 class ItemInformationPublic extends StatefulWidget {
+  final Map<String, dynamic> post;
+  const ItemInformationPublic({Key? key, required this.post}) : super(key: key);
   @override
   State<ItemInformationPublic> createState() => _ItemInformationPublicState();
 }
@@ -45,9 +61,9 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                   const SizedBox(height: 20),
 
                   // 제목
-                  const Text(
-                    '저 진짜 너무 힘드네요.. 힘드네요..',
-                    style: TextStyle(
+                  Text(
+                    widget.post['name'] ?? '제목 없음',
+                    style: const TextStyle(
                       color: Color(0xFF212121),
                       fontSize: 19,
                       fontFamily: 'Pretendard Variable',
@@ -56,9 +72,9 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                   ),
 
                   const SizedBox(height: 8),
-                  const Text(
-                    '분류/아찌고/똥    5분 전',
-                    style: TextStyle(
+                  Text(
+                    '${widget.post['kind'] ?? '분류없음'}   ${timeAgoFromNow(widget.post['regDate'] ?? DateTime.now().toIso8601String())}',
+                    style: const TextStyle(
                       color: Color(0xFFAEAEAE),
                       fontSize: 13,
                       fontFamily: 'Pretendard Variable',
@@ -86,10 +102,10 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                         const SizedBox(width: 19),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children:  [
                             Text(
-                              '기관이름',
-                              style: TextStyle(
+                              widget.post['company'] ?? '공공기관',
+                              style: const TextStyle(
                                 color: Color(0xFF212121),
                                 fontSize: 16,
                                 fontFamily: 'Pretendard Variable',
@@ -97,8 +113,8 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                               ),
                             ),
                             Text(
-                              '위치',
-                              style: TextStyle(
+                              widget.post['place'] ?? '-',
+                              style: const TextStyle(
                                 color: Color(0xFFAEAEAE),
                                 fontSize: 13,
                                 fontFamily: 'Pretendard Variable',
@@ -115,9 +131,9 @@ class _ItemInformationPublicState extends State<ItemInformationPublic> {
                   const SizedBox(height: 20),
 
                   // 본문
-                  const Text(
-                    '본문 내용\n\n가나다라마바사 아자차카타파하\n디자인 차력쇼를 보여드리겠습니다\n\n안녕하세요 감사합니다 영어로 땡큐 중국어로 쎼쎼\n\n반택만 합니다\n직거래 안합니다\n\n하자 오염 없습니다\n\n커어어억.... 드렁슨',
-                    style: TextStyle(
+                  Text(
+                    widget.post['detail'] ?? '',
+                    style: const TextStyle(
                       color: Color(0xFF212121),
                       fontSize: 16,
                       fontFamily: 'Pretendard Variable',

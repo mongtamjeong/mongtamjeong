@@ -14,6 +14,9 @@ class PostService {
     required String kind,
     required String name,
     required String place,
+    required String description,
+    required String imageUrl,
+    required String reward,
   }) async {
     final currentUser = _auth.currentUser;
     if (currentUser == null) {
@@ -23,6 +26,9 @@ class PostService {
     final String postId = const Uuid().v4();
     final String registerarId = currentUser.uid;
     final DateTime now = DateTime.now();
+    final userDoc = await _firestore.collection('users').doc(registerarId).get();
+    final nickname = userDoc.data()?['nickname'] ?? '이름없음';
+    final profileImage = userDoc.data()?['profileImage'] ?? '';
 
     final postData = {
       'id': postId,
@@ -31,6 +37,11 @@ class PostService {
       'place': place,
       'regDate': now.toIso8601String(),
       'registerarId': registerarId,
+      'description': description,
+      'nickname': nickname,
+      'imageUrl': imageUrl,
+      'profileImage': profileImage,
+      'reward': reward,
       'status': '찾는중',
     };
 
@@ -70,9 +81,13 @@ class PostService {
     final items = snapshot.docs.map((doc) {
       final data = doc.data();
       return {
+        'id': data['id'],
         'company': data['company'],
         'regDate': data['regDate'],
         'name': data['name'],
+        'detail': data['detail'],
+        'place': data['place'],
+        'kind': data['kind']
       };
     }).toList();
 
@@ -85,4 +100,4 @@ class PostService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('cached_lost_items');
   }
-} 
+}
