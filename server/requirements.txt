@@ -1,0 +1,9 @@
+flask==3.1.0
+torch==2.7.0
+torchvision==0.22.0
+pillow==11.2.1
+pandas==2.2.3
+openai==1.77.0
+requests==2.32.3
+google-cloud-vision==3.10.1
+google-auth==2.39.0
