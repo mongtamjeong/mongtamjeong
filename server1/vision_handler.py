@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 vision_bp = Blueprint("vision", __name__)
-app.register_blueprint(vision_bp)  
+app.register_blueprint(vision_bp)         
 
 KEY_PATH = os.environ["GOOGLE_CREDENTIALS_PATH"]
 credentials = service_account.Credentials.from_service_account_file(KEY_PATH)

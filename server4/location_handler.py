@@ -5,7 +5,7 @@ import io
 app = Flask(__name__)
 
 location_bp = Blueprint("location", __name__)
-app.register_blueprint(location_bp)   
+app.register_blueprint(location_bp)         
 
 with open('data.csv', 'rb') as f:
     raw = f.read()

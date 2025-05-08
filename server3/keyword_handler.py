@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 keyword_bp = Blueprint("keyword", __name__)
-app.register_blueprint(keyword_bp)   
+app.register_blueprint(keyword_bp)         
 
 api_key = os.environ["OPENAI_API_KEY"]
 client = OpenAI(api_key=api_key)  # 키 그대로 넣어도 됨

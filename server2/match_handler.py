@@ -19,7 +19,7 @@ initialize_app(cred)
 fs_db = firestore.client()
 
 match_bp = Blueprint("match", __name__)
-app.register_blueprint(match_bp)  
+app.register_blueprint(match_bp)         
 
 transform = T.Compose([
     T.Resize(224, interpolation=InterpolationMode.BICUBIC),
