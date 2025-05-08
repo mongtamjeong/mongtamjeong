@@ -2,12 +2,9 @@ from flask import Blueprint, request, jsonify,Flask
 import json
 from google.cloud import vision
 from google.oauth2 import service_account
-import os
-
-app = Flask(__name__)
+import os 
 
 vision_bp = Blueprint("vision", __name__)
-app.register_blueprint(vision_bp)  
 
 KEY_PATH = os.environ["GOOGLE_CREDENTIALS_PATH"]
 credentials = service_account.Credentials.from_service_account_file(KEY_PATH)
@@ -38,6 +35,9 @@ def analyze_image():
         "top_label": max(labels, key=lambda x: x.score).description,
         "predicted_category": category
     })
+
+app = Flask(__name__)
+app.register_blueprint(vision_bp) 
 
 if __name__ == "__main__":
     import os
