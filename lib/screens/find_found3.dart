@@ -18,6 +18,9 @@ class _FindFound3State extends State<FindFound3> {
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _rewardController = TextEditingController();
 
+  DateTime? _selectedDate; // 선택된 날짜
+  TimeOfDay? _selectedTime; // 선택된 시간
+
   bool _isSubmitting = false;
 
   Future<void> _pickImage() async {
@@ -28,6 +31,44 @@ class _FindFound3State extends State<FindFound3> {
         _selectedImage = File(pickedFile_find.path);
       });
     }
+  }
+
+  // 날짜 선택 함수
+  Future<void> _pickDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    }
+  }
+
+  // 시간 선택 함수
+  Future<void> _pickTime() async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (pickedTime != null) {
+      setState(() {
+        _selectedTime = pickedTime;
+      });
+    }
+  }
+
+  // 날짜와 시간 텍스트 형식
+  String get _formattedDateTime {
+    if (_selectedDate == null && _selectedTime == null) {
+      return '잃어버린 날짜와 시간을 선택하세요';
+    }
+    String date = _selectedDate != null ? "${_selectedDate!.year}년 ${_selectedDate!.month}월 ${_selectedDate!.day}일" : '';
+    String time = _selectedTime != null ? "${_selectedTime!.hour}시 ${_selectedTime!.minute}분" : '';
+    return "$date $time";
   }
 
   Future<void> _submitPost() async {
@@ -126,6 +167,27 @@ class _FindFound3State extends State<FindFound3> {
               }).toList(),
             ),
             const SizedBox(height: 24),
+
+            // 날짜와 시간 선택 필드
+            const Text('잃어버린 시간', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () async {
+                await _pickDate();
+                await _pickTime();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(_formattedDateTime),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
             const Text('설명', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             TextField(

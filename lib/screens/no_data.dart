@@ -5,7 +5,15 @@ import 'find_found3.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 
-class NoData extends StatelessWidget {
+class NoData extends StatefulWidget {
+  @override
+  State<NoData> createState() => _NoDataState();
+}
+
+class _NoDataState extends State<NoData> {
+  String? placeText; // 분실물 추천 장소 텍스트 변수
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,8 +35,7 @@ class NoData extends StatelessWidget {
       body: Stack(
         children: [
           // 스크롤 가능한 전체 콘텐츠
-          SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 100), // 버튼 가릴 공간
+          SingleChildScrollView( // 버튼 가릴 공간
             child: Container(
               width: double.infinity,
               color: const Color(0xFFF8FFFF),
@@ -106,32 +113,15 @@ class NoData extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
 
-                  // 지도 자리
-                  SizedBox(
-                    height: 300,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: NaverMap(
-                        options: const NaverMapViewOptions(
-                          initialCameraPosition: NCameraPosition(
-                            target: NLatLng(37.4504, 126.6535), // 인하대 위치
-                            zoom: 15,
-                          ),
-                        ),
-                        onMapReady: (controller) async {
-
-                          // 📍 마커 추가
-                          final marker = NMarker(
-                            id: "marker",
-                            position: NLatLng(37.4504, 126.6535),
-                          );
-
-                          await controller.addOverlay(marker);
-                        },
-                      )
+                  // 지도 자리 -> 텍스트로 수정
+                  Text(
+                    placeText ?? '추천 장소를 불러오는 중...',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Pretendard Variable',
                     ),
                   ),
-                  const SizedBox(height: 32),
                 ],
               ),
             ),
