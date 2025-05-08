@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-import json
 import os
 import torch
 import torch.nn.functional as F
@@ -11,6 +10,7 @@ import pandas as pd
 import io
 from io import BytesIO
 import requests
+import json
 
 
 # ====== Flask 서버 시작 ======
@@ -60,40 +60,69 @@ transform = T.Compose([
     T.ToTensor(),
     T.Normalize([0.5]*3, [0.5]*3),
 ])
-dinov2 = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')
+dinov2 = torch.hub.load('facebookresearch/dinov2', 'dinov2_vits14')
 dinov2.eval()
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+cred = credentials.Certificate("mongtamjeong-firebase.json")
+firebase_admin.initialize_app(cred)
+fs_db = firestore.client()
+
+def get_image_urls_from_firestore():
+    docs = fs_db.collection("items").stream()
+    return [doc.to_dict().get("imageUrl") for doc in docs if doc.to_dict().get("imageUrl")]
 
 def load_image(file_storage):
     img = Image.open(file_storage).convert("RGB")
     return transform(img).unsqueeze(0)
 
-@app.route("/match", methods=["POST"])
-def compare_images():
-    uploaded = request.files.get("image")  # 사용자 업로드 이미지
-    db_image_url = request.form.get("db_image_url")  # 기존 이미지 URL
+def load_image_from_url(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    img = Image.open(BytesIO(response.content)).convert("RGB")
+    return transform(img).unsqueeze(0)
 
-    if not uploaded or not db_image_url:
-        return jsonify({"error": "Image file and db_image_url required"}), 400
+@app.route("/match-from-db", methods=["POST"])
+def match_from_firestore():
+    uploaded = request.files.get("image")
+    if not uploaded:
+        return jsonify({"error": "No image uploaded"}), 400
 
-    # 업로드 이미지 처리
-    img1 = load_image(uploaded)
-
-    # DB 이미지 URL에서 다운로드
     try:
-        response = requests.get(db_image_url)
-        response.raise_for_status()
-        db_img = Image.open(BytesIO(response.content)).convert("RGB")
-        img2 = transform(db_img).unsqueeze(0)
+        img1 = load_image(uploaded)
     except Exception as e:
-        return jsonify({"error": f"Failed to load db image: {str(e)}"}), 500
+        return jsonify({"error": f"Failed to process uploaded image: {str(e)}"}), 500
 
-    # 유사도 계산
+    results = []
+    image_urls = get_image_urls_from_firestore()
+
     with torch.no_grad():
         feat1 = F.normalize(dinov2(img1), dim=-1)
-        feat2 = F.normalize(dinov2(img2), dim=-1)
-        sim = F.cosine_similarity(feat1, feat2).item() * 100
 
-    return jsonify({"similarity": round(sim, 2)})
+        for url in image_urls:
+            try:
+                img2 = load_image_from_url(url)
+                feat2 = F.normalize(dinov2(img2), dim=-1)
+                sim = F.cosine_similarity(feat1, feat2).item() * 100
+
+                if sim >= 50:
+                    results.append({
+                        "imageUrl": url,
+                        "similarity": round(sim, 2)
+                    })
+
+            except Exception as e:
+                results.append({
+                    "imageUrl": url,
+                    "error": str(e)
+                })
+
+    results = sorted(results, key=lambda x: x.get("similarity", 0), reverse=True)
+    return jsonify(results[:5])
+
+#     return jsonify({"similarity": round(sim, 2)})
 
 #====== [3] 텍스트 기반 질문 생성 (GPT-4 API) ======
 
@@ -155,4 +184,3 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
-
