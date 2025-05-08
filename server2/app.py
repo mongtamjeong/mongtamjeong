@@ -9,10 +9,12 @@ from io import BytesIO
 import firebase_admin
 import os
 from firebase_admin import credentials, firestore, initialize_app 
+import json
 
 FIREBASE_KEY_PATH = os.environ["FIREBASE_CREDENTIALS_PATH"]
+firebase_cred_dict = json.loads(FIREBASE_KEY_PATH)
 
-cred = credentials.Certificate(FIREBASE_KEY_PATH)
+cred = credentials.Certificate(firebase_cred_dict)
 initialize_app(cred)
 fs_db = firestore.client()
 
