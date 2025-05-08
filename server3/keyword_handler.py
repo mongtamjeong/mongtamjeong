@@ -1,6 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,Flask
 from openai import OpenAI
 import os
+
+app = Flask(__name__)
 
 keyword_bp = Blueprint("keyword", __name__)
 
@@ -24,3 +26,8 @@ def extract_keywords():
         temperature=0.3
     )
     return jsonify({"result": response.choices[0].message.content})
+
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))  # ← 꼭 이렇게
+    app.run(host="0.0.0.0", port=port)

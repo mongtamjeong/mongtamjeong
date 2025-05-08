@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,Flask
 import torch
 import torch.nn.functional as F
 from PIL import Image
@@ -9,6 +9,8 @@ from io import BytesIO
 import firebase_admin
 import os
 from firebase_admin import credentials, firestore, initialize_app
+
+app = Flask(__name__)
 
 FIREBASE_KEY_PATH = os.environ["FIREBASE_CREDENTIALS_PATH"]
 
@@ -77,3 +79,8 @@ def match_from_firestore():
 
     results = sorted(results, key=lambda x: x.get("similarity", 0), reverse=True)
     return jsonify(results[:5])
+
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))  # ← 꼭 이렇게
+    app.run(host="0.0.0.0", port=port)

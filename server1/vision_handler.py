@@ -1,8 +1,10 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,Flask
 import json
 from google.cloud import vision
 from google.oauth2 import service_account
 import os
+
+app = Flask(__name__)
 
 vision_bp = Blueprint("vision", __name__)
 
@@ -35,3 +37,8 @@ def analyze_image():
         "top_label": max(labels, key=lambda x: x.score).description,
         "predicted_category": category
     })
+
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))  # ← 꼭 이렇게
+    app.run(host="0.0.0.0", port=port)

@@ -1,6 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,Flask
 import pandas as pd
 import io
+
+app = Flask(__name__)
 
 location_bp = Blueprint("location", __name__)
 
@@ -34,3 +36,8 @@ def recommend_location():
         return jsonify({"error": "No keyword provided"}), 400
     result = recommend_place(keyword)
     return jsonify(result)
+
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))  # ← 꼭 이렇게
+    app.run(host="0.0.0.0", port=port)
