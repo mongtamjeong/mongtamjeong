@@ -21,6 +21,7 @@ String timeAgoFromNow(String isoDate) {
   return '${dateTime.year}.${dateTime.month}.${dateTime.day}';
 }
 
+
 class FindFound1 extends StatefulWidget {
   @override
   State<FindFound1> createState() => _FindFound1State();
@@ -85,6 +86,8 @@ class _FindFound1State extends State<FindFound1> {
           ),
         ),
       ),
+
+      // 게시글 리스트
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -146,29 +149,35 @@ class _FindFound1State extends State<FindFound1> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              subtitle,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey,
-                              ),
+                          ),
+                          Text(
+                            subtitle,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
                             ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 22,),
+                          Text(
+                            '현상금 ㅇㅇㅇ원',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: Color(0xFFDDDDDD),
-                  indent: 16,
-                  endIndent: 16,
-                ),
-              ],
-            ),
+              ),
+              const Divider(
+                height: 1,
+                thickness: 1,
+                color: Color(0xFFDDDDDD),
+                indent: 16,
+                endIndent: 16,
+              ),
+            ],
           );
         },
       ),

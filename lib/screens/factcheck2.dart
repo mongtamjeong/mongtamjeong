@@ -16,17 +16,12 @@ class Factcheck2 extends StatefulWidget {
 }
 
 class _Factcheck2State extends State<Factcheck2> {
-  String? selectedPlace;
-  String? selectedTime;
-  String? selectedType;
-  String? selectedColor;
-  final List<String> placeOptions = ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구',
-    '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구',
-    '성동구', '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'];
-  final List<String> timeOptions = ['1시간 이내', '오늘', '이번 주', '기억 안 남'];
-  final List<String> typeOptions = ['전자기기', '반려동물', '의류', '잡화', '기타'];
-  final List<String> colorOptions = ['빨간색', '주황색', '노란색', '초록색', '파란색',
-    '남색', '보라색', '분홍색', '하얀색', '회색', '검정색', '갈색', '베이지', '카키', '기타'];
+  String? selectedFirst;
+  String? selectedSecond;
+  String? selectedThird;
+  final List<String> firstOptions = ['선지는 인경님에게 부탁', '강남구', '강동구', '강북구', '강서구'];
+  final List<String> secondOptions = ['1시간 이내', '오늘', '이번 주', '기억 안 남'];
+  final List<String> thirdOptions = ['전자기기', '반려동물', '의류', '잡화', '기타'];
 
   @override
   Widget build(BuildContext context) {
@@ -92,20 +87,16 @@ class _Factcheck2State extends State<Factcheck2> {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Column(
                           children: [
-                            _buildDropdown('장소', placeOptions, selectedPlace, (value) {
-                              setState(() => selectedPlace = value);
+                            _buildDropdown('첫 번째 특징', firstOptions, selectedFirst, (value) {
+                              setState(() => selectedFirst = value);
                             }),
                             const SizedBox(height: 12),
-                            _buildDropdown('시간', timeOptions, selectedTime, (value) {
-                              setState(() => selectedTime = value);
+                            _buildDropdown('두 번째 특징', secondOptions, selectedSecond, (value) {
+                              setState(() => selectedSecond = value);
                             }),
                             const SizedBox(height: 12),
-                            _buildDropdown('종류', typeOptions, selectedType, (value) {
-                              setState(() => selectedType = value);
-                            }),
-                            const SizedBox(height: 12),
-                            _buildDropdown('색상', colorOptions, selectedColor, (value) {
-                              setState(() => selectedColor = value);
+                            _buildDropdown('세 번째 특징', thirdOptions, selectedThird, (value) {
+                              setState(() => selectedThird = value);
                             }),
                             SizedBox(height: 10,),
                             Text(

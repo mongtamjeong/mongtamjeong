@@ -15,17 +15,7 @@ class CategoryAuto extends StatefulWidget {
 }
 
 class _CategoryAutoState extends State<CategoryAuto> {
-  String? selectedPlace;
-  String? selectedTime;
-  String? selectedType;
-  String? selectedColor;
-  final List<String> placeOptions = ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구',
-    '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구',
-    '성동구', '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'];
-  final List<String> timeOptions = ['1시간 이내', '오늘', '이번 주', '기억 안 남'];
-  final List<String> typeOptions = ['전자기기', '반려동물', '의류', '잡화', '기타'];
-  final List<String> colorOptions = ['빨간색', '주황색', '노란색', '초록색', '파란색',
-    '남색', '보라색', '분홍색', '하얀색', '회색', '검정색', '갈색', '베이지', '카키', '기타'];
+  String category = '카테고리 결과 이 변수에 넣으면 될 듯';
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +50,7 @@ class _CategoryAutoState extends State<CategoryAuto> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '자네 금도끼는 이런 특징을 가졌단거지?',
+                  '내가 어디 한 번 분류해보겠소',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 19,
@@ -89,25 +79,7 @@ class _CategoryAutoState extends State<CategoryAuto> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Column(
-                          children: [
-                            _buildDropdown('장소', placeOptions, selectedPlace, (value) {
-                              setState(() => selectedPlace = value);
-                            }),
-                            const SizedBox(height: 12),
-                            _buildDropdown('시간', timeOptions, selectedTime, (value) {
-                              setState(() => selectedTime = value);
-                            }),
-                            const SizedBox(height: 12),
-                            _buildDropdown('종류', typeOptions, selectedType, (value) {
-                              setState(() => selectedType = value);
-                            }),
-                            const SizedBox(height: 12),
-                            _buildDropdown('색상', colorOptions, selectedColor, (value) {
-                              setState(() => selectedColor = value);
-                            }),
-                          ],
-                        ),
+                        child: Text(category)
                       ),
                     ],
                   ),
@@ -129,7 +101,7 @@ class _CategoryAutoState extends State<CategoryAuto> {
                         );
                       },
                       child: const Text(
-                        '제출하기',
+                        '확인',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),

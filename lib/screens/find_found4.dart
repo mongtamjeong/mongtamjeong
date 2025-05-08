@@ -18,6 +18,9 @@ class _FindFound4State extends State<FindFound4> {
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _rewardController = TextEditingController();
 
+  DateTime? _selectedDate; // 선택된 날짜
+  TimeOfDay? _selectedTime; // 선택된 시간
+
   bool _isSubmitting = false;
 
   Future<void> _pickImage() async {
@@ -28,6 +31,44 @@ class _FindFound4State extends State<FindFound4> {
         _selectedImage = File(pickedFile.path);
       });
     }
+  }
+
+  // 날짜 선택 함수
+  Future<void> _pickDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    }
+  }
+
+  // 시간 선택 함수
+  Future<void> _pickTime() async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (pickedTime != null) {
+      setState(() {
+        _selectedTime = pickedTime;
+      });
+    }
+  }
+
+  // 날짜와 시간 텍스트 형식
+  String get _formattedDateTime {
+    if (_selectedDate == null && _selectedTime == null) {
+      return '날짜와 시간을 선택하세요';
+    }
+    String date = _selectedDate != null ? "${_selectedDate!.year}년 ${_selectedDate!.month}월 ${_selectedDate!.day}일" : '';
+    String time = _selectedTime != null ? "${_selectedTime!.hour}시 ${_selectedTime!.minute}분" : '';
+    return "$date $time";
   }
 
   Future<void> _submitPost() async {
@@ -133,6 +174,26 @@ class _FindFound4State extends State<FindFound4> {
                 return DropdownMenuItem(value: category, child: Text(category));
               }).toList(),
             ),
+
+            const SizedBox(height: 24),
+            // 날짜와 시간 선택 필드
+            const Text('발견한 시간', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () async {
+                await _pickDate();
+                await _pickTime();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(_formattedDateTime),
+              ),
+            ),
+
             const SizedBox(height: 24),
             const Text('설명', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
@@ -146,16 +207,19 @@ class _FindFound4State extends State<FindFound4> {
               ),
             ),
             const SizedBox(height: 24),
-            const Text('추천문구', style: TextStyle(fontWeight: FontWeight.bold)),
+
+            const Text('필수문구', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: const [
-                Chip(label: Text('색깔은?')),
-                Chip(label: Text('케이스 유/무')),
-                Chip(label: Text('일련번호')),
-                Chip(label: Text('눈에 띄는 특징')),
+                Chip(label: Text('색상')),
+                Chip(label: Text('로고/텍스트')),
+                Chip(label: Text('무늬/그림')),
+                Chip(label: Text('종류')),
+                Chip(label: Text('브랜드')),
+                Chip(label: Text('특징')),
               ],
             ),
             const SizedBox(height: 20),
