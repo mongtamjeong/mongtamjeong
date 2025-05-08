@@ -197,6 +197,7 @@ class _SigninState extends State<Signin> {
                         if (user != null && user.emailVerified) {
                           await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
                             'email': user.email,
+                            'createdAt': Timestamp.now(),
                           });
 
                           Navigator.push(

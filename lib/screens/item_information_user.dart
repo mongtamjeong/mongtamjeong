@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'wishList.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../services/chat_service.dart';
+import 'chat2.dart'; // 채팅방 화면
 
 
 String timeAgoFromNow(String isoDate) {
@@ -196,9 +198,36 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                  onPressed: () {
-                    // 채팅 페이지 이동 등
+                  onPressed: () async {
+                    try {
+                      final chatService = ChatService();
+
+                      final targetUid = widget.post['registerarId'];
+                      if (targetUid == null) {
+                        print("❌ registerarId 누락");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("사용자 정보가 잘못되었습니다.")),
+                        );
+                        return;
+                      }
+
+                      final chatroomId = await chatService.createOrGetChatRoom(targetUid);
+                      print("✅ 채팅방 ID: $chatroomId");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => Chat2(chatroomId: chatroomId),
+                        ),
+                      );
+                    } catch (e) {
+                      print("❌ 채팅방 생성 오류: $e");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("채팅방을 생성하지 못했습니다.")),
+                      );
+                    }
                   },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFB5FFFF),
                     elevation: 0,

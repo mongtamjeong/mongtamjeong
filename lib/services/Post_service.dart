@@ -17,6 +17,7 @@ class PostService {
     required String description,
     required String imageUrl,
     required String reward,
+    required String time // 물건 습득/잃어버린 시간
   }) async {
     final currentUser = _auth.currentUser;
     if (currentUser == null) {
@@ -42,6 +43,7 @@ class PostService {
       'imageUrl': imageUrl,
       'profileImage': profileImage,
       'reward': reward,
+      'time': time, //물건 잃어버린 시간
       'status': '찾는중',
     };
 

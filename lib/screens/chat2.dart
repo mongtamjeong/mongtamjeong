@@ -2,15 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/chat_service.dart';
 
 class Chat2 extends StatefulWidget {
+  final String chatroomId;
+
+  const Chat2({Key? key, required this.chatroomId}) : super(key: key);
+
   @override
   State<Chat2> createState() => _Chat2State();
 }
 
 class _Chat2State extends State<Chat2> {
+  final TextEditingController _messageController = TextEditingController();
+  final ChatService _chatService = ChatService();
+  final currentUser = FirebaseAuth.instance.currentUser;
   File? _selectedImage;
 
   Future<void> _pickImageFromGallery() async {
@@ -24,19 +32,32 @@ class _Chat2State extends State<Chat2> {
     }
   }
 
+  void _sendMessage() async {
+    final text = _messageController.text.trim();
+    if (text.isEmpty) return;
+
+    await _chatService.sendMessage(
+      chatroomId: widget.chatroomId,
+      text: text,
+    );
+
+    _messageController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('떵쿠노',style: TextStyle(
+        title: const Text(
+          '채팅',
+          style: TextStyle(
             color: Color(0xFF212121),
-        fontSize: 24,
-        fontFamily: 'Pretendard Variable',
-        fontWeight: FontWeight.w600,
-      ),
-    ),
+            fontSize: 24,
+            fontFamily: 'Pretendard Variable',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         centerTitle: true,
         elevation: 1,
         backgroundColor: Colors.white,
@@ -47,99 +68,44 @@ class _Chat2State extends State<Chat2> {
         children: [
           const Divider(height: 1, thickness: 1, color: Color(0xFFDDDDDD)),
 
-          // 물건 정보 (항상 고정)
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 47,
-                  height: 47,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFE4E4E4),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                  ),// 물건 이미지 자리
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text('제목', style: TextStyle(
-                      color: Color(0xFF212121),
-                      fontSize: 16,
-                      fontFamily: 'Pretendard Variable',
-                      fontWeight: FontWeight.w600,
-                    ),),
-                    SizedBox(height: 2),
-                    Text('7000원', style: TextStyle(
-                        color: Color(0xFF212121),
-                  fontSize: 16,
-                  fontFamily: 'Pretendard Variable',
-                  fontWeight: FontWeight.w600,
-                ),),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFDDDDDD)),
-
-          // 채팅 영역
+          // 메시지 영역
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              children: [
-                // 상대방 채팅 (왼쪽)
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 38,
-                      width: 38,
-                      child: SvgPicture.asset(
-                        'assets/images/profileImage_noCamera.svg',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _chatService.getMessages(widget.chatroomId),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
 
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Text('안녕하세요 \n떵쿠노입니다 \n오늘의 먹방은 만두'),
-                    ),
-                  ],
-                ),
+                final messages = snapshot.data!.docs;
 
-                const SizedBox(height: 20),
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final msg = messages[index];
+                    final isMe = msg['sender'] == currentUser?.uid;
 
-                // 내 채팅 (오른쪽)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Color(0xFFDDDDDD)),
-                        borderRadius: BorderRadius.circular(10),
+                    return Align(
+                      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: isMe ? Colors.white : Colors.grey[300],
+                          border: Border.all(color: Color(0xFFDDDDDD)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(msg['text']),
                       ),
-                      child: const Text('맛있게 먹겠습니다~'),
-                    ),
-                  ],
-                ),
-              ],
+                    );
+                  },
+                );
+              },
             ),
           ),
 
-          //  입력창
+          // 입력창
           Column(
             children: [
-              // 이미지 미리보기 (선택된 경우에만)
               if (_selectedImage != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -158,7 +124,7 @@ class _Chat2State extends State<Chat2> {
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedImage = null; // 이미지 제거
+                            _selectedImage = null;
                           });
                         },
                         child: Container(
@@ -174,8 +140,6 @@ class _Chat2State extends State<Chat2> {
                   ),
                 ),
 
-
-              //  채팅 입력창
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
@@ -184,7 +148,6 @@ class _Chat2State extends State<Chat2> {
                       icon: Icon(Icons.add, color: Colors.grey),
                       onPressed: _pickImageFromGallery,
                     ),
-
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -192,7 +155,8 @@ class _Chat2State extends State<Chat2> {
                           color: const Color(0xFFE4E4E4),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        child: const TextField(
+                        child: TextField(
+                          controller: _messageController,
                           decoration: InputDecoration(
                             hintText: '채팅 보내기',
                             hintStyle: TextStyle(
@@ -206,14 +170,15 @@ class _Chat2State extends State<Chat2> {
                         ),
                       ),
                     ),
-
                     const SizedBox(width: 8),
-                    const Icon(Icons.send, color: Colors.grey),
+                    IconButton(
+                      icon: Icon(Icons.send, color: Colors.grey),
+                      onPressed: _sendMessage,
+                    ),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 41),
+              const SizedBox(height: 16),
             ],
           ),
         ],

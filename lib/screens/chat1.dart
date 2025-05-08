@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../services/chat_service.dart';
+import 'chat2.dart';
 import 'find_found1.dart';
 import 'myPage.dart';
 import 'home.dart';
@@ -10,6 +14,8 @@ class Chat1 extends StatefulWidget {
 }
 
 class _Chat1State extends State<Chat1> {
+  final ChatService _chatService = ChatService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,31 +48,51 @@ class _Chat1State extends State<Chat1> {
           ),
           const Divider(thickness: 1, color: Color(0xFFDDDDDD)),
           Expanded(
-            child: ListView.separated(
-              itemCount: 10,
-              separatorBuilder: (context, index) => const Divider(thickness: 1, color: Color(0xFFDDDDDD)),
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 90,
-                  child: ListTile(
-                    leading: SvgPicture.asset(
-                      'assets/images/chat_grandpa.svg',
-                      width: 48,
-                      height: 48,
-                    ),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Text('닉네임', style: TextStyle(fontWeight: FontWeight.bold)),
-                        SizedBox(width: 7),
-                        const Text('2분 전', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                      ],
-                    ),
-                    subtitle: const Text('마지막 대화 내용'),
-                    onTap: () {
-                      // TODO: 채팅방 이동
-                    },
-                  ),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _chatService.getUserChatRooms(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text("채팅방이 없습니다."));
+                }
+
+                final chatrooms = snapshot.data!.docs;
+
+                return ListView.separated(
+                  itemCount: chatrooms.length,
+                  separatorBuilder: (context, index) => const Divider(thickness: 1, color: Color(0xFFDDDDDD)),
+                  itemBuilder: (context, index) {
+                    final room = chatrooms[index];
+                    return SizedBox(
+                      height: 90,
+                      child: ListTile(
+                        leading: SvgPicture.asset(
+                          'assets/images/chat_grandpa.svg',
+                          width: 48,
+                          height: 48,
+                        ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text('채팅방', style: TextStyle(fontWeight: FontWeight.bold)),
+                            const SizedBox(width: 7),
+                            Text('생성일', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                          ],
+                        ),
+                        subtitle: Text('참여자: ${(room['participants'] as List).join(', ')}'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => Chat2(chatroomId: room.id),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
                 );
               },
             ),
@@ -106,9 +132,7 @@ Widget _buildTabButton(String label, bool isSelected) {
     decoration: BoxDecoration(
       color: isSelected ? Color(0xFFB5FFFF) : Colors.white,
       borderRadius: BorderRadius.circular(20),
-      border: isSelected
-          ? null
-          : Border.all(color: Color(0xFFBDBDBD)),
+      border: isSelected ? null : Border.all(color: Color(0xFFBDBDBD)),
     ),
     child: Text(
       label,
@@ -119,4 +143,3 @@ Widget _buildTabButton(String label, bool isSelected) {
     ),
   );
 }
-
