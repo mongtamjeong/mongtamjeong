@@ -1,20 +1,15 @@
 from flask import Flask, request, jsonify
 import json
 import os
-import torch
-import torch.nn.functional as F
-from PIL import Image
-import torchvision.transforms as T
-from torchvision.transforms.functional import InterpolationMode
+#import torch
+#import torch.nn.functional as F
+# from PIL import Image
+# import torchvision.transforms as T
+# from torchvision.transforms.functional import InterpolationMode
 from openai import OpenAI
-from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
-from collections import Counter
 import pandas as pd
 import io
-from io import BytesIO
+#from io import BytesIO
 import requests
 
 
@@ -119,46 +114,39 @@ def extract_keywords():
     )
     return jsonify({"result": response.choices[0].message.content})
 
+#===============================================================
+with open('data.csv', 'rb') as f:
+    raw = f.read()
+text = raw.decode('cp949', errors='replace')
+df = pd.read_csv(io.StringIO(text), sep=',')
 
-# # ====== [4] 장소 예측 (TF-IDF + Random Forest) ======
-# # 데이터 로드 및 모델 학습은 서버 시작 시 1회만
-# with open('data.csv', 'rb') as f:
-#     raw = f.read()
-# text = raw.decode('cp949', errors='replace')
-# df = pd.read_csv(io.StringIO(text), sep=',')
-# df = df[['수령위치(회사)', '분실물종류', '분실물명', '보관장소']].dropna()
-# df.columns = ['company', 'kind', 'name', 'place']
+df = df[['수령위치(회사)', '분실물종류', '분실물명', '보관장소']].dropna()
+df.columns = ['company', 'kind', 'name', 'place']
 
-# df['refined_place'] = df.apply(lambda row: row['place'] if row['place'] != '회사내 분실센터' else f"{row['company']} 분실센터", axis=1).str.strip()
-# df['input_text'] = df['company'] + ' ' + df['kind'] + ' ' + df['name']
+def refine_place(row):
+    if row['place'] == '회사내 분실센터':
+        return f"{row['company']} 분실센터"
+    else:
+        return row['place']
 
-# X_train, X_test, y_train, y_test = train_test_split(
-#     df['input_text'], df['refined_place'], test_size=0.2, random_state=42, stratify=df['refined_place'])
+df['refined_place'] = df.apply(refine_place, axis=1).str.strip()
 
-# def filter_by_support(X, y, min_count=30):
-#     counts = Counter(y)
-#     valid = {label for label, count in counts.items() if count >= min_count}
-#     idx = [i for i, label in enumerate(y) if label in valid]
-#     return X.iloc[idx], y.iloc[idx]
+# 🔹 추천 함수
+def recommend_place(keyword: str):
+    matches = df[df['name'].str.contains(keyword, case=False, na=False)]
+    if matches.empty:
+        return {"message": f"'{keyword}'와 관련된 분실물 기록이 없습니다."}
+    counts = matches['refined_place'].value_counts()
+    return counts.head(5).to_dict()
 
-# X_train, y_train = filter_by_support(X_train, y_train)
-# X_test, y_test = filter_by_support(X_test, y_test)
+# 🔹 API 엔드포인트
+@app.route("/recommend-location", methods=["POST"])
+def recommend_location():
+    keyword = request.json.get("keyword", "").strip()
+    if not keyword:
+        return jsonify({"error": "No keyword provided"}), 400
+    result = recommend_place(keyword)
+    return jsonify(result)
 
-# pipeline = Pipeline([
-#     ('tfidf', TfidfVectorizer()),
-#     ('clf', RandomForestClassifier())
-# ])
-# pipeline.fit(X_train, y_train)
-
-# @app.route("/predict-location", methods=["POST"])
-# def predict_location():
-#     input_text = request.json.get("text", "")
-#     if not input_text:
-#         return jsonify({"error": "No text input"}), 400
-#     pred = pipeline.predict([input_text])[0]
-#     return jsonify({"predicted_place": pred})
-
-
-# ====== 실행 ======
 if __name__ == "__main__":
     app.run(debug=True)
