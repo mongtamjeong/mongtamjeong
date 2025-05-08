@@ -4,12 +4,7 @@ import io
 
 location_bp = Blueprint("location", __name__) 
 
-with open('data.csv', 'rb') as f:
-    raw = f.read()
-text = raw.decode('cp949', errors='replace')
-df = pd.read_csv(io.StringIO(text), sep=',')
-
-df = df[['수령위치(회사)', '분실물종류', '분실물명', '보관장소']].dropna()
+df = pd.read_csv("data.csv", encoding="utf-8-sig")
 df.columns = ['company', 'kind', 'name', 'place']
 
 def refine_place(row):
