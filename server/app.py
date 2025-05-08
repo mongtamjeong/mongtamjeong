@@ -138,7 +138,7 @@ df['refined_place'] = df.apply(refine_place, axis=1).str.strip()
 def recommend_place(keyword: str):
     matches = df[df['name'].str.contains(keyword, case=False, na=False)]
     if matches.empty:
-        return {"message": f"'{keyword}'와 관련된 분실물 기록이 없습니다."}
+        return {"message": f"'{keyword}'와 관련된 분실물 기록이 없소..."}
     counts = matches['refined_place'].value_counts()
     return counts.head(5).to_dict()
 
