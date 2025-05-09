@@ -81,7 +81,10 @@ class _Chat1State extends State<Chat1> {
                             Text('생성일', style: TextStyle(color: Colors.grey, fontSize: 12)),
                           ],
                         ),
-                        subtitle: Text('참여자: ${(room['participants'] as List).join(', ')}'),
+                        subtitle: Text(
+                          room['lastMessage'] ?? '대화를 시작해보세요',
+                          style: TextStyle(color: Colors.black54),
+                        ),
                         onTap: () {
                           Navigator.push(
                             context,

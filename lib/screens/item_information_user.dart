@@ -3,6 +3,7 @@ import 'wishList.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../services/chat_service.dart';
 import 'chat2.dart'; // 채팅방 화면
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 String timeAgoFromNow(String isoDate) {
@@ -200,19 +201,25 @@ class _ItemInformationUserState extends State<ItemInformationUser> {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      final chatService = ChatService();
-
+                      final currentUser = FirebaseAuth.instance.currentUser;
                       final targetUid = widget.post['registerarId'];
-                      if (targetUid == null) {
-                        print("❌ registerarId 누락");
+
+                      if (currentUser == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("사용자 정보가 잘못되었습니다.")),
+                          SnackBar(content: Text("로그인이 필요합니다.")),
                         );
                         return;
                       }
 
+                      if (currentUser.uid == targetUid) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("본인과 채팅할 수 없습니다.")),
+                        );
+                        return;
+                      }
+
+                      final chatService = ChatService();
                       final chatroomId = await chatService.createOrGetChatRoom(targetUid);
-                      print("✅ 채팅방 ID: $chatroomId");
 
                       Navigator.push(
                         context,

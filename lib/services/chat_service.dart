@@ -45,15 +45,25 @@ class ChatService {
     required String text,
   }) async {
     final currentUid = _auth.currentUser!.uid;
-    await _chatroomRef
+
+    final messageRef = _chatroomRef
         .doc(chatroomId)
         .collection('messages')
-        .add({
+        .doc();
+
+    await messageRef.set({
       'sender': currentUid,
       'text': text,
       'timestamp': Timestamp.now(),
     });
+
+    // 👉 채팅방 문서의 마지막 메시지 필드 업데이트
+    await _chatroomRef.doc(chatroomId).update({
+      'lastMessage': text,
+      'lastMessageAt': Timestamp.now(),
+    });
   }
+
 
   /// 채팅 메시지 실시간 스트림
   Stream<QuerySnapshot> getMessages(String chatroomId) {
